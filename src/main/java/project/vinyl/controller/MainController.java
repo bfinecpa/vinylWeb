@@ -15,7 +15,6 @@ import project.vinyl.dto.ItemSearchDto;
 import project.vinyl.dto.MainPageItemDto;
 import project.vinyl.service.ItemService;
 
-import javax.print.attribute.standard.PageRanges;
 import java.util.Optional;
 
 @Controller
