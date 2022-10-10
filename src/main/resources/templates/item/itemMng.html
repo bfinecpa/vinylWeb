@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+>
+
+<meta charset="UTF-8">
+<title>Title</title>
+
+<!-- 사용자 스크립트 추가 -->
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+
+        function page(page){
+            location.href="/item/manage/" + page;
+        }
+
+    </script>
+</th:block>
+
+<!-- 사용자 CSS 추가 -->
+
+<div>
+   <form th:action="@{'/item/manage' + ${crudItemDtos.number}}" role="form" method="get" th:object="${crudItemDtos}">
+        <table class="table">
+            <thead>
+            <tr>
+                <td>상품이미지</td>
+                <td>상품명</td>
+                <td>상태</td>
+                <td>가격</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item, status: ${wishItem.getContent()}">
+                <td>
+                    <img th:src="${item.imgUrl}" th:alt="${item.name}" width="100px" height="100px">
+                </td>
+                <td th:text="${item.name}">
+<!--                    <a th:href="'/admin/item/'+${item.id}" th:text="${item.itemNm}"></a>-->
+
+                </td>
+                <td th:text="${item.itemSellStatus == T(project.vinyl.constant.ItemSellStatus).SELL} ? '판매중' : '품절'"></td>
+                <td th:text="${item.price}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div th:with="start=${(crudItemDtos.number/maxPage)*maxPage + 1}, end=(${(crudItemDtos.totalPages == 0) ? 1 : (start + (maxPage - 1) < crudItemDtos.totalPages ? start + (maxPage - 1) : crudItemDtos.totalPages)})" >
+            <ul class="pagination justify-content-center">
+
+                <li class="page-item" th:classappend="${crudItemDtos.first}?'disabled'">
+                    <a th:onclick="'javascript:page(' + ${crudItemDtos.number - 1} + ')'" aria-label='Previous' class="page-link">
+                        <span aria-hidden='true'>Previous</span>
+                    </a>
+                </li>
+
+                <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${crudItemDtos.number eq page-1}?'active':''">
+                    <a th:onclick="'javascript:page(' + ${page - 1} + ')'" th:inline="text" class="page-link" th:text="${page}"></a>
+                </li>
+
+                <li class="page-item" th:classappend="${crudItemDtos.last}?'disabled'">
+                    <a th:onclick="'javascript:page(' + ${crudItemDtos.number + 1} + ')'" aria-label='Next' class="page-link">
+                        <span aria-hidden='true'>Next</span>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+
+   </form>
+
+</div>
+
+</html>

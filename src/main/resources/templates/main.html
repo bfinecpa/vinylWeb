@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+메인페이지
+
+<form th:action="@{/}" method="get">
+    <input name="searchQuery" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    <button type="submit">Search</button>
+</form>
+
+<div class="row">
+    <th:block th:unless="${items.getContent().isEmpty()}">
+        <th:block th:each="item, status: ${items.getContent()}">
+            <div class="col-md-4 margin">
+                <div class="card">
+                    <a th:href="'/item/' +${item.id}" class="text-dark">
+                        <img th:src="${item.imgUrl}" class="card-img-top" th:alt="${item.name}" height="400">
+                        <div class="card-body">
+                            <h4 class="card-title">[[${item.name}]]</h4>
+                            <h3 class="card-title text-danger">[[${item.price}]]원</h3>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </th:block>
+    </th:block>
+    <th:block th:if="${items.getContent().isEmpty()}">
+        검색결과가 없습니다.
+    </th:block>
+
+
+</div>
+
+
+</body>
+</html>

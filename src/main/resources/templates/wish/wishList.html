@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table class="table">
+    <thead>
+    <tr>
+        <td>상품이미지</td>
+        <td>상품명</td>
+        <td>상태</td>
+        <td>가격</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item, status: ${wishItem.getContent()}">
+        <td>
+            <img th:src="${item.imgUrl}" th:alt="${item.name}" width="100px" height="100px">
+        </td>
+        <td th:text="${item.name}">
+            <!--                    <a th:href="'/admin/item/'+${item.id}" th:text="${item.itemNm}"></a>-->
+
+        </td>
+        <td th:text="${item.itemSellStatus == T(project.vinyl.constant.ItemSellStatus).SELL} ? '판매중' : '품절'"></td>
+        <td th:text="${item.price}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
