@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import project.vinyl.dto.AddMemberDto;
 import project.vinyl.entity.Member;
 import project.vinyl.service.MemberService;
@@ -16,15 +17,16 @@ import javax.validation.Valid;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/members")
 public class MemberController {
     private final MemberService memberService;
 
-    @GetMapping("/members/add")
+    @GetMapping("/add")
     public String addForm(@ModelAttribute("addMemberDto") AddMemberDto addMemberDto) {
         return "members/addMemberForm";
     }
 
-    @PostMapping("/members/add")
+    @PostMapping("/add")
     public String save(@Valid @ModelAttribute AddMemberDto addMemberDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "members/addMemberForm";
