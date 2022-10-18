@@ -15,18 +15,22 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="item, status: ${wishItem.getContent()}">
-        <td>
-            <img th:src="${item.imgUrl}" th:alt="${item.name}" width="100px" height="100px">
-        </td>
-        <td th:text="${item.name}">
-            <!--                    <a th:href="'/admin/item/'+${item.id}" th:text="${item.itemNm}"></a>-->
+        <div th:if="${wishItem != null}">
+            <tr th:each="item, status: ${wishItem.getContent()}">
+                <td>
+                    <img th:src="${item.imgUrl}" th:alt="${item.name}" width="100px" height="100px">
+                </td>
+                <td th:text="${item.name}">
+                    <!--                    <a th:href="'/admin/item/'+${item.id}" th:text="${item.itemNm}"></a>-->
 
-        </td>
-        <td th:text="${item.itemSellStatus == T(project.vinyl.constant.ItemSellStatus).SELL} ? '판매중' : '품절'"></td>
-        <td th:text="${item.price}"></td>
-    </tr>
+                </td>
+                <td th:text="${item.itemSellStatus == T(project.vinyl.constant.ItemSellStatus).SELL} ? '판매중' : '품절'"></td>
+                <td th:text="${item.price}"></td>
+            </tr>
+        </div>
     </tbody>
+
+
 </table>
 
 </body>

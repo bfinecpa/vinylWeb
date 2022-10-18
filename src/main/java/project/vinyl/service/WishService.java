@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import project.vinyl.dto.CRUDWishItemDto;
 import project.vinyl.entity.Item;
 import project.vinyl.entity.Member;
@@ -20,6 +21,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class WishService {
 
     private final MemberRepository memberRepository;
@@ -49,7 +51,12 @@ public class WishService {
 
     public Page<CRUDWishItemDto> getWishItem(Long memberId, Pageable pageable){
         WishList wishList = wishListRepository.findByMemberId(memberId);
-        return wishItemRepository.getWishItemDto(wishList.getId(), pageable);
+        if(wishList==null){
+            return null;
+        }
+        Page<CRUDWishItemDto> wishItemDto = wishItemRepository.getWishItemDto(wishList.getId(), pageable);
+
+        return wishItemDto;
     }
 
 

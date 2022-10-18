@@ -14,6 +14,7 @@ public class WishList {
 
     @Id
     @GeneratedValue
+    @Column(name = "wish_list_id")
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)

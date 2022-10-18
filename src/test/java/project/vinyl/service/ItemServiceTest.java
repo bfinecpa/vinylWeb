@@ -206,10 +206,4 @@ class ItemServiceTest {
         }
     }
 
-
-    @Test
-    public void idtest() throws Exception {
-
-        Assertions.assertEquals("hi1", "hi"+1);
-    }
 }

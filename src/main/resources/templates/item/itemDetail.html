@@ -42,7 +42,7 @@
                 <div th:if="${itemDetail.itemSellStatus == T(project.vinyl.constant.ItemSellStatus).SELL}" class="text-right">
                     <div> 버튼에 href넣을 수 있음 나중에 넣어야함 -> 찜하기</div>
                     <button th:formaction="@{/setWishItem(itemId=${itemDetail.id})}">찜하기</button>
-                    <button type="button" class="btn btn-primary btn-lg" onclick="order()">주문하기</button>
+                    <button type="button" class="btn btn-primary btn-lg" onclick="order()">거래하기</button>
                 </div>
                 <div th:unless="${itemDetail.itemSellStatus == T(project.vinyl.constant.ItemSellStatus).SELL}" class="text-right">
                     <button type="button" class="btn btn-danger btn-lg">품절</button>

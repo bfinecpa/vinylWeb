@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import project.vinyl.constant.Role;
+import project.vinyl.constant.SessionConst;
 import project.vinyl.dto.CRUDItemDto;
 import project.vinyl.dto.ItemDetailToDealDto;
 import project.vinyl.dto.ItemFormDto;
@@ -20,6 +21,8 @@ import project.vinyl.service.ItemService;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityNotFoundException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
@@ -34,14 +37,6 @@ public class ItemController {
     private final ItemService itemService;
     private final MemberRepository memberRepository;
 
-    @PostConstruct
-    public void newMember(){
-        Member member = new Member();
-        memberRepository.save(member);
-    }
-
-
-
 
     @GetMapping("/new")
     public String regItem(Model model){
@@ -51,7 +46,8 @@ public class ItemController {
 
     @PostMapping("/new")
     public String regItem(@Valid ItemFormDto itemFormDto, BindingResult bindingResult,
-                          Model model, @RequestParam("itemImgFile") List<MultipartFile> itemImgFileList){
+                          Model model, @RequestParam("itemImgFile") List<MultipartFile> itemImgFileList,
+                          HttpServletRequest request){
 
         if(bindingResult.hasErrors()){
             return "item/itemForm";
@@ -61,7 +57,9 @@ public class ItemController {
             return "item/itemForm";
         }
         try{
-            itemService.saveItem(itemFormDto, itemImgFileList, 1L);
+            HttpSession session = request.getSession(false);
+            Member member = (Member)session.getAttribute(SessionConst.LOGIN_MEMBER);
+            itemService.saveItem(itemFormDto, itemImgFileList, member.getId());
         } catch (IOException e) {
             model.addAttribute("errorMessage", "상품 등록중 에러가 발생했습니다.");
             return "item/itemForm";
@@ -70,10 +68,15 @@ public class ItemController {
     }
 
     @GetMapping(value = {"/manage", "/manage/{page}"})
-    public String manageItem(@PathVariable("page") Optional<Integer> page, Model model){
+    public String manageItem(@PathVariable("page") Optional<Integer> page, Model model,
+                             HttpServletRequest request){
+
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3);
 
-        Page<CRUDItemDto> crudItemDtos = itemService.getCRUDItem(1L, pageable);
+        HttpSession session = request.getSession(false);
+        Member member = (Member)session.getAttribute(SessionConst.LOGIN_MEMBER);
+
+        Page<CRUDItemDto> crudItemDtos = itemService.getCRUDItem(member.getId(), pageable);
 
         model.addAttribute("crudItemDtos", crudItemDtos);
         model.addAttribute("maxPage", 5);

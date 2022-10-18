@@ -14,6 +14,7 @@ public class WishItem {
 
     @Id
     @GeneratedValue
+    @Column(name = "wish_item_id")
     private Long id;
 
     @ManyToOne
@@ -21,7 +22,7 @@ public class WishItem {
     private Item item;
 
     @ManyToOne
-    @JoinColumn(name = "wishList_id")
+    @JoinColumn(name = "wish_list_id")
     private WishList wishList;
 
     public WishItem(Item item ,WishList wishList){

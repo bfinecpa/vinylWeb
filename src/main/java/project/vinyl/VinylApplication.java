@@ -14,6 +14,9 @@ public class VinylApplication {
 		SpringApplication.run(VinylApplication.class, args);
 	}
 
+	@PostConstruct
+	public void newMemberFor(){
 
+	}
 
 }

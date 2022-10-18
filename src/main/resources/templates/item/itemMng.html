@@ -30,7 +30,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="item, status: ${wishItem.getContent()}">
+            <tr th:each="item, status: ${crudItemDtos.getContent()}">
                 <td>
                     <img th:src="${item.imgUrl}" th:alt="${item.name}" width="100px" height="100px">
                 </td>
