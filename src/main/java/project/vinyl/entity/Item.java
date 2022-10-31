@@ -1,6 +1,7 @@
 package project.vinyl.entity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import project.vinyl.constant.ItemSellStatus;
 import project.vinyl.dto.ItemFormDto;
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class Item extends BaseTimeEntity{
 
     @Id
@@ -22,6 +24,16 @@ public class Item extends BaseTimeEntity{
 
     @Lob
     private String details;
+
+    public Item(String name, String details, int price, int stockNumber, boolean negotiation, ItemSellStatus itemSellStatus, Member member) {
+        this.name = name;
+        this.details = details;
+        this.price = price;
+        this.stockNumber = stockNumber;
+        this.negotiation = negotiation;
+        this.itemSellStatus = itemSellStatus;
+        this.member = member;
+    }
 
     @Column(nullable = false)
     private int price;

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<div th:each="tmp, status: ${msgRoomDtoList}">
+    <div class="chat_list_box">
+        <div type="button" class="chat_list" th:value="${tmp.id}">
+            <!-- active-chat -->
+            <div class="chat_people">
+                <div class="chat_img" >
+<!--                    <a href="other_profile.do?other_nick=${tmp.other_nick }">-->
+<!--                        <img src="./upload/profile/${tmp.profile}" alt="sunil" >-->
+<!--                    </a> 아이템 이미지랑 클릭하면 아이템 화면으로 갈수 있게-->
+                </div>
+                <div class="chat_ib">
+                    <h5 th:text="${tmp.itemName}">
+<!--                    시간    <span class="chat_date" th:text="${tmp.send_time }"></span>-->
+                    </h5>
+                    <div th:text="${tmp.id}"></div>
+                    <div class="row">
+                        <!--<div class="col-10">
+                            <p>${tmp.content }</p>
+                        </div>-->
+                        <!--만약 현재사용자가 안읽은 메세지 갯수가 0보다 클때만 badge를 표시한다.-->
+<!--                        <c:if test="${tmp.unread > 0 }">-->
+<!--                            <div class="col-2 unread${tmp.room }">-->
+<!--                                <span class="badge bg-danger">${tmp.unread }</span>-->
+<!--                            </div>-->
+<!--                        </c:if>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

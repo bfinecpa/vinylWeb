@@ -20,6 +20,8 @@ public class ItemDetailToDealDto {
 
     private String name;
 
+    private Long sellerId;
+
     private String details;
 
     private int price;

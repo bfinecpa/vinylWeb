@@ -113,7 +113,7 @@ public class ItemService {
     public ItemDetailToDealDto getItemDetail(Long itemId){
         Item item = itemRepository.findById(itemId).orElseThrow(EntityExistsException::new);
         ItemDetailToDealDto itemDetailToDealDto = ItemDetailToDealDto.of(item);
-
+        itemDetailToDealDto.setSellerId(item.getMember().getId());
         List<String> itemImgUrlList = new ArrayList<>();
 
         List<ItemImg> itemImgList = itemImgService.getItemImgList(itemId);

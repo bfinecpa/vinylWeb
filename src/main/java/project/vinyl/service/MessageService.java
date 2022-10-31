@@ -49,7 +49,7 @@ public class MessageService {
     }
 
     //메세지 보내기
-    //두가지로 나눌 수 있음 -> 처음 보내는 거냐 아니면 있던 룸에서 보낸는 거냐
+    //두가지로 나눌 수 있음 -> 처음 보내는 거냐 아니면 있던 룸에서 보낸는 거냐 -> 룸을 만드는 서비스를 생성하자
     public void firstSendMessage(Long sendMemberId, Long receiveMemberId, Long itemId, String content){
         Item item = itemRepository.findById(itemId).orElseThrow(EntityExistsException::new);
         Member member1 = memberRepository.findById(sendMemberId).orElseThrow(EntityExistsException::new);
@@ -60,11 +60,11 @@ public class MessageService {
         messageRepository.save(message);
     }
 
-    public void sendMessage(MessageDto messageDto){
-        MessageRoom messageRoom = messageRoomRepository.findById(messageDto.getRoomId()).orElseThrow(EntityExistsException::new);
-        Member sendMember = memberRepository.findById(messageDto.getSendMemberId()).orElseThrow(EntityExistsException::new);
-        Member receiveMember = memberRepository.findById(messageDto.getReceiveMemberId()).orElseThrow(EntityExistsException::new);
-        Message message = new Message(sendMember, receiveMember, messageRoom, messageDto.getContent());
+    public void sendMessage(Long sendMemberId, Long receiveMemberId, Long roomId, String content){
+        MessageRoom messageRoom = messageRoomRepository.findById(roomId).orElseThrow(EntityExistsException::new);
+        Member sendMember = memberRepository.findById(sendMemberId).orElseThrow(EntityExistsException::new);
+        Member receiveMember = memberRepository.findById(receiveMemberId).orElseThrow(EntityExistsException::new);
+        Message message = new Message(sendMember, receiveMember, messageRoom, content);
         messageRepository.save(message);
     }
 

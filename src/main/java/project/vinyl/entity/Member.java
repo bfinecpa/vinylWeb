@@ -51,8 +51,4 @@ public class Member {
 
     //member가 사라지면 올린 아이템도 사라져야 한다.
 
-    @OneToMany(mappedBy = "member", orphanRemoval = true ,fetch = FetchType.LAZY)
-    private List<Item> item = new ArrayList<>();
-
-
 }

@@ -33,11 +33,7 @@ public class Message {
 
     private LocalDateTime sendTime;
 
-    private LocalDateTime receiveTime;
-
     private String content;
-
-    private int readCheck;
 
     public Message(Member sendMember, Member receiveMember, MessageRoom messageRoom, String content) {
         this.sendMember = sendMember;
