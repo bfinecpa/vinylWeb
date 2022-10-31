@@ -44,7 +44,7 @@ public class LoginController {
 
         HttpSession session = request.getSession();
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
-        return "redirect:/";
+        return "redirect:" + redirectURL;
     }
 
     @PostMapping("/logout")
@@ -53,7 +53,7 @@ public class LoginController {
         if (session != null) {
             session.invalidate();
         }
-        return "redirect:" + redirectURL;
+        return "redirect:/";
     }
 
 }
