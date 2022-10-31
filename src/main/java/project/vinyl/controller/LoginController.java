@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import project.vinyl.constant.SessionConst;
 import project.vinyl.dto.LoginFormDto;
 import project.vinyl.entity.Member;
@@ -28,7 +29,8 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(@Valid @ModelAttribute LoginFormDto form, BindingResult bindingResult, HttpServletRequest request) {
+    public String login(@Valid @ModelAttribute LoginFormDto form, BindingResult bindingResult,
+                        @RequestParam(defaultValue = "/home") String redirectURL, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return "login/loginForm";
         }
@@ -51,7 +53,7 @@ public class LoginController {
         if (session != null) {
             session.invalidate();
         }
-        return "redirect:/home";
+        return "redirect:" + redirectURL;
     }
 
 }
