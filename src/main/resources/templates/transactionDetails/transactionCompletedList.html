@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table class="table">
+    <thead>
+    <tr>
+        <td>상품이미지</td>
+        <td>상품명</td>
+        <td>판매자 이름</td>
+        <!--<td>가격</td>-->
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="transDetail, status: ${transDetailDto.getContent()}">
+        <td>
+            <img th:src="${transDetail.imgUrl}" th:alt="이미지" width="100px" height="100px">
+        </td>
+        <td th:text="${transDetail.itemName}">
+            <!--                    <a th:href="'/admin/item/'+${item.id}" th:text="${item.itemNm}"></a>-->
+
+        </td>
+        <td th:text="${transDetail.sellerName}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

@@ -1,14 +1,12 @@
 package project.vinyl.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,19 +21,17 @@ import project.vinyl.repository.ItemRepository;
 import project.vinyl.repository.UserRepository;
 
 import javax.persistence.EntityExistsException;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @Transactional
 @Slf4j
-class ItemServiceTest {
-
+public class MemberServiceTest {
     @Autowired
     ItemService itemService;
 
@@ -79,7 +75,7 @@ class ItemServiceTest {
     }
 
     @Test
-    @DisplayName("상품 등록")
+    @DisplayName("회원가입")
     void saveItem() throws IOException {
         Member user = new Member();
         userRepository.save(user);
@@ -111,7 +107,7 @@ class ItemServiceTest {
     }
 
     @Test
-    @DisplayName("상품 내용 조회")
+    @DisplayName("회원탈퇴")
     void getCrud() throws IOException {
 
         Member user = new Member();
@@ -137,73 +133,6 @@ class ItemServiceTest {
         List<CRUDItemDto> content = crudItem.getContent();
         assertEquals(content.size(), 3);
         assertEquals(content.get(0).getName(), "테스트 상품0");
-    }
-
-    @Test
-    @DisplayName("상품 수정")
-    void update() throws IOException {
-        Member user = new Member();
-        userRepository.save(user);
-        ItemFormDto itemFormDto = ItemFormDto.builder()
-                .name("테스트 상품" + 1)
-                .details("테스트 상품 디테일" + 1)
-                .price(1000)
-                .stockNumber(5)
-                .negotiation(true)
-                .itemSellStatus(ItemSellStatus.SELL)
-                .build();
-
-        List<MultipartFile> file = createUpdateFile();
-        //test할때 결국에 service에서 나오는 리턴값으로 비교를 해야하므로 service의 함수는 리턴이 있어야 한다.
-        Long id = itemService.saveItem(itemFormDto, file, user.getId());
-
-        ItemFormDto updateItemFormDto = ItemFormDto.builder()
-                .id(id)
-                .name("테스트 상품" + 2)
-                .details("테스트 상품 디테일" + 2)
-                .price(1000)
-                .stockNumber(5)
-                .negotiation(true)
-                .itemSellStatus(ItemSellStatus.SELL)
-                .build();
-
-        itemService.updateItem(updateItemFormDto,file,user.getId());
-
-        Optional<Item> item = itemRepository.findById(id);
-        Item item1 = item.get();
-
-        List<ItemImg> byItemIdOrderByIdAsc = itemImgRepository.findByItemIdOrderByIdAsc(id);
-        String oriImgName = byItemIdOrderByIdAsc.get(0).getOriImgName();
-        log.info(item1.getName()+" "+oriImgName);
-    }
-
-    @Test
-    @DisplayName("상품 삭제")
-    public void delete() throws IOException {
-        Member user = new Member();
-        userRepository.save(user);
-        Long lastId = null;
-        for(int i=0; i<10; i++){
-            ItemFormDto itemFormDto = ItemFormDto.builder()
-                    .name("테스트 상품"+i)
-                    .details("테스트 상품 디테일" + i)
-                    .price(1000)
-                    .stockNumber(5)
-                    .negotiation(true)
-                    .itemSellStatus(ItemSellStatus.SELL)
-                    .build();
-
-            List<MultipartFile> file = createFile();
-            //test할때 결국에 service에서 나오는 리턴값으로 비교를 해야하므로 service의 함수는 리턴이 있어야 한다.
-            lastId = itemService.saveItem(itemFormDto, file, user.getId());
-        }
-
-        itemService.deleteItem(lastId, user.getId());
-
-        Optional<Item> byId = itemRepository.findById(lastId);
-        if(byId.isEmpty()){
-            log.info("ok");
-        }
     }
 
 }

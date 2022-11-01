@@ -18,6 +18,9 @@
 <!--                    시간    <span class="chat_date" th:text="${tmp.send_time }"></span>-->
                     </h5>
                     <div th:text="${tmp.id}"></div>
+                    <span>
+                        <button th:onclick="|location.href='@{completeTransaction(messageRoomId=${tmp.id})}'|">거래 완료하기</button>
+                    </span>
                     <div class="row">
                         <!--<div class="col-10">
                             <p>${tmp.content }</p>

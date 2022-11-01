@@ -39,4 +39,10 @@ public class MessageRoomService {
                 : messageRoom.getParticipateMember1().getId();
     }
 
+    public Boolean existMember(Long memberId, Long roomId){
+        MessageRoom messageRoom = messageRoomRepository.findById(roomId).orElseThrow(EntityExistsException::new);
+        return (messageRoom.getParticipateMember1().getId()==memberId &&
+                messageRoom.getParticipateMember2().getId()==memberId) ? true : false ;
+    }
+
 }

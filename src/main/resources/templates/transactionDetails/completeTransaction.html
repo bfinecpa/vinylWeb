@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div> 거래를 완료하시겠습니까</div>
+    <form action="/completeTransaction" method="post">
+        <input type="hidden" name="messageRoomId" th:value="${messageRoomId}">
+        <input type="submit" value="거래 완료">
+    </form>
+
+
+
+</body>
+</html>
