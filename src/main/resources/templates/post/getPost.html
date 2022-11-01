@@ -1,0 +1,154 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        $(document).ready(function(){
+            var errorMessage = [[${errorMessage}]];
+            if(errorMessage != null){
+                alert(errorMessage);
+            }
+        });
+
+        function deletePost() {
+            const id = [[ ${post.id} ]];
+            if ( !confirm(id + "번 게시글을 삭제할까요?") ) {
+                return false;
+            }
+
+            const formHtml = `
+                    <form id="deleteForm" action="/post/${id}/delete" method="post">
+                        <input type="hidden" id="id" name="id" value="${id}" />
+                    </form>
+                `;
+            const doc = new DOMParser().parseFromString(formHtml, 'text/html');
+            const form = doc.body.firstChild;
+            document.body.append(form);
+            document.getElementById('deleteForm').submit();
+        }
+
+        function deleteComment(commentId, postId) {
+            // /comment/${commentId}/delete
+            // const postId = [[ ${post.id} ]];
+            if ( !confirm("댓글을 삭제할까요?") ) {
+                return false;
+            }
+
+            const formHtml = `
+                    <form id="deleteComment" action="/comment/${commentId}/delete/${postId}" method="post">
+                        <input type="hidden" id="commentId" name="commentId" value="${commentId}" />
+                    </form>
+                `;
+            const doc = new DOMParser().parseFromString(formHtml, 'text/html');
+            const form = doc.body.firstChild;
+            document.body.append(form);
+            document.getElementById('deleteComment').submit();
+
+        }
+    </script>
+</th:block>
+
+<div class="container">
+
+    <div class="pt-5 text-center">
+        <h2>게시글 보기</h2>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-dark float-end"
+                    onclick="location.href='list.html'"
+                    th:onclick="|location.href='@{/post}'|"
+                    type="button">게시글 목록</button>
+        </div>
+    </div>
+
+    <hr class="my-3">
+
+    <div class="row" th:if="${loginMember.id == post.member.id}">
+        <div class="col">
+            <button class="w-100 btn btn-dark btn-lg"
+                    onclick="location.href='editForm.html'"
+                    th:onclick="|location.href='@{/post/{postId}/edit(postId=${post.id})}'|"
+                    type="button">게시글 수정</button>
+        </div>
+        <div class="col">
+            <button class="w-100 btn btn-secondary btn-lg"
+                    onclick="deletePost()" th:onclick="|deletePost();|"
+                    type="button">게시글 삭제</button>
+
+        </div>
+    </div>
+
+    <div>
+        <label for="postId">no.</label>
+        <input type="text" id="postId" name="postId" class="form-control" value="1" th:value="${post.id}" readonly>
+    </div>
+    <div>
+        <label for="postTitle">title</label>
+        <input type="text" id="postTitle" name="postTitle" class="form-control" value="title" th:value="${post.title}" readonly>
+    </div>
+    <div>
+        <label for="postContent">content</label>
+        <input type="text" id="postContent" name="postContent" class="form-control" value="content" th:value="${post.content}" readonly>
+    </div>
+    <div>
+        <label for="hits">hits</label>
+        <input type="text" id="hits" name="hits" class="form-control" value="10" th:value="${post.hits}" readonly>
+    </div>
+    <div>
+        <label for="regTime">time</label>
+        <input type="text" id="regTime" name="regTime" class="form-control" value="10" th:value="${#temporals.format(post.updateTime,'yyyy.MM.dd HH:mm')}" readonly>
+    </div>
+
+<!--댓글 영역-->
+
+    <div class="card mb-2 mt-5">
+        <div class="card-header bg-light">댓글 작성</div>
+        <div class="card-body">
+            <form th:action="@{/comment/{postId}/register(postId=${post.id})}" th:object="${commentFormDto}" method="post">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <textarea th:field="*{comment}" class="form-control" rows="1"></textarea>
+                        <button type="submit" class="btn btn-dark mt-3 float-end">등록</button>
+                    </li>
+                </ul>
+            </form>
+
+        </div>
+    </div>
+    <br/>
+
+
+    <div class="card" th:if="${commentExist}">
+        <div class="card-header" th:text="|댓글 ${commentList.size()}개|">댓글</div>
+        <ul id="comment-box" class="list-group" th:each="comment : ${commentList}">
+            <li id="comment-1" class="list-group-item justify-content-between">
+                <div class="d-flex">
+                    <div class="text-monospace me-3" th:text="${comment.member.name}"></div>
+                    <div th:if="${loginMember.id == comment.member.id}">
+                        <button class="badge text-bg-secondary pr-1">수정</button>
+                        <button th:onclick="|deleteComment('${comment.id}', '${post.id}');|" class="badge text-bg-secondary btn-sm">삭제</button>
+                    </div>
+                    <div class="ms-auto me-1" th:text="${#temporals.format(post.updateTime,'yyyy.MM.dd HH:mm')}"></div>
+                </div>
+                <div th:text="${comment.comment}">댓글 내용</div>
+            </li>
+        </ul>
+    </div>
+
+</div> <!-- /container -->
+</body>
+</html>
