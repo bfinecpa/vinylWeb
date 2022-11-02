@@ -123,6 +123,12 @@ public class PostController {
         return "redirect:/post/{postId}";
     }
 
+    @GetMapping("/{postId}/delete")
+    public String invalidDelete(@PathVariable Long postId, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("errorMessage", "게시글을 작성한 회원만 글을 삭제할 수 있습니다.");
+        return "redirect:/post/{postId}";
+    }
+
     @PostMapping("/{postId}/delete")
     public String delete(@PathVariable Long postId, HttpServletRequest request, RedirectAttributes redirectAttributes) {
 
