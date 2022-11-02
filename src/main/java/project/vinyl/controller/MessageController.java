@@ -7,12 +7,8 @@ import project.vinyl.constant.ItemSellStatus;
 import project.vinyl.constant.SessionConst;
 import project.vinyl.dto.MessageDto;
 import project.vinyl.dto.MessageRoomDto;
-import project.vinyl.entity.Item;
-import project.vinyl.entity.ItemImg;
-import project.vinyl.entity.Member;
-import project.vinyl.repository.ItemImgRepository;
-import project.vinyl.repository.ItemRepository;
-import project.vinyl.repository.MemberRepository;
+import project.vinyl.entity.*;
+import project.vinyl.repository.*;
 import project.vinyl.service.MessageRoomService;
 import project.vinyl.service.MessageService;
 
@@ -31,18 +27,26 @@ public class MessageController {
     private final MemberRepository memberRepository;
     private final MessageService messageService;
     private final MessageRoomService messageRoomService;
+    private final MessageRoomRepository messageRoomRepository;
+    private final TransactionDetailsRepository transactionDetailsRepository;
 
 
     @PostConstruct
     public void newMember(){
-        Member member = new Member("aa", "aa", "aa", "aa", "123");
-        Member member2 = new Member("ss", "ss", "ss", "ss", "123");
+        Member member = new Member("aa", "aa", "홍길동", "테스트", "1234");
+        Member member2 = new Member("ss", "ss", "임꺽정", "테스트", "1234");
         memberRepository.save(member);
         memberRepository.save(member2);
-        Item item = new Item("test", "testtest", 10, 10, true, ItemSellStatus.SELL, member);
+        /*Item item = new Item("test", "testtest", 10, 10, true, ItemSellStatus.SELL, member);
         itemRepository.save(item);
         ItemImg itemImg = new ItemImg("aa.png", "aa.png", "Y", item, "/image/item/aa.png");
         itemImgRepository.save(itemImg);
+        MessageRoom messageRoom = new MessageRoom(item, member, member2);
+        messageRoomRepository.save(messageRoom);
+        TransactionDetails transactionDetails = new TransactionDetails(messageRoom, member);
+        TransactionDetails transactionDetails2 = new TransactionDetails(messageRoom, member2);
+        transactionDetailsRepository.save(transactionDetails2);
+        transactionDetailsRepository.save(transactionDetails);*/
     }
 
 

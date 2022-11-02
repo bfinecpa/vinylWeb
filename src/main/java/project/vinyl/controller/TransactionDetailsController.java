@@ -1,5 +1,6 @@
 package project.vinyl.controller;
 
+import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,16 +12,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import project.vinyl.constant.SessionConst;
 import project.vinyl.dto.TransactionDetailsDto;
 import project.vinyl.entity.Member;
+import project.vinyl.entity.TransactionDetails;
 import project.vinyl.service.TransactionDetailsService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class TransactionDetailsController {
 
     private final TransactionDetailsService transactionDetailsService;
+
+
 
     @GetMapping("/completeTransaction")
     public String completeTransaction(@RequestParam Long messageRoomId, Model model){
@@ -37,10 +42,10 @@ public class TransactionDetailsController {
     }
 
     @GetMapping("/transactionCompletedList")
-    public String transactionCompletedList(HttpServletRequest request, Model model, Pageable pageable){
+    public String transactionCompletedList(HttpServletRequest request, Model model){
         HttpSession session = request.getSession(false);
         Member member = (Member)session.getAttribute(SessionConst.LOGIN_MEMBER);
-        Page<TransactionDetailsDto> transDetailDto = transactionDetailsService.getTransDetailDto(member.getId(), pageable);
+        List<TransactionDetailsDto> transDetailDto = transactionDetailsService.getTransDetailDto(member.getId());
         model.addAttribute("transDetailDto", transDetailDto);
         return "transactionDetails/transactionCompletedList";
     }

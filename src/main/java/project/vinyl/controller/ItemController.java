@@ -99,7 +99,7 @@ public class ItemController {
 
     @PostMapping("/update/{itemId}")
     public String updateItem(@Valid ItemFormDto itemFormDto, BindingResult bindingResult,
-                             @RequestParam("itemImgFile") List<MultipartFile> multipartFileList, Model model){
+                             @RequestParam("itemImgFile") List<MultipartFile> multipartFileList, Model model, HttpServletRequest request){
 
         if(bindingResult.hasErrors()){
             return "item/itemForm";
@@ -109,7 +109,9 @@ public class ItemController {
             return "item/itemForm";
         }
         try{
-            itemService.updateItem(itemFormDto, multipartFileList, 1L);
+            HttpSession session = request.getSession(false);
+            Member member = (Member)session.getAttribute(SessionConst.LOGIN_MEMBER);
+            itemService.updateItem(itemFormDto, multipartFileList, member.getId());
         } catch (IOException e) {
             model.addAttribute("errorMessage", "수정중 에러 발생");
             return "item/itemForm";
@@ -123,6 +125,14 @@ public class ItemController {
         log.info(itemDetail.getId().getClass().toString());
         model.addAttribute("itemDetail", itemDetail);
         return "item/itemDetail";
+    }
+
+    @PostMapping("/delete")
+    public String deleteItem(@RequestParam("itemId") Long itemId, HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        Member member = (Member)session.getAttribute(SessionConst.LOGIN_MEMBER);
+        itemService.deleteItem(itemId, member.getId());
+        return "redirect:/item/manage";
     }
 
 }

@@ -96,8 +96,11 @@ public class ItemService {
      **/
     //기능 : 삭제
     public void deleteItem(Long itemId, Long userId){
-        itemImgService.delete(itemId);
-        itemRepository.deleteById(itemId);
+        Item item = itemRepository.findById(itemId).orElseThrow(EntityExistsException::new);
+        if (item.getMember().getId()==userId){
+            itemImgService.delete(itemId);
+            itemRepository.deleteById(itemId);
+        }
     }
 
     /**

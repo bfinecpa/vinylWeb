@@ -17,7 +17,6 @@ public class TransactionDetailsDto {
 
     private String sellerName;
 
-    @QueryProjection
     public TransactionDetailsDto(Long id, String itemName, String itemImgUrl, String sellerName) {
         this.id = id;
         this.itemName = itemName;

@@ -92,5 +92,6 @@ public class ItemImgService {
             File imgFile = new File(uploadPath+itemImg.getOriImgName());
             imgFile.delete();
         }
+
     }
 }

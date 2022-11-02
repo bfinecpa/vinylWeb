@@ -1,8 +1,12 @@
 package project.vinyl.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.util.HashMap;
@@ -20,19 +24,18 @@ public class TransactionDetails {
     private Long id;
 
     //메세지 룸으로 해야하나, 아니면 아이템 있는 애들 이거를 해야하나
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "message_room_id")
+    @Nullable
     private MessageRoom messageRoom;
 
-    @ElementCollection
-    @CollectionTable(
-        name = "member_complete",
-            joinColumns = @JoinColumn(name = "transaction_details_id")
-    )
-    @MapKeyColumn(name = "member_id")
-    @Column(name = "completeTF")
-    private Map<Long, Boolean> transactionCompleted = new HashMap<>();
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
 
-    public TransactionDetails(MessageRoom messageRoom) {
+    @Builder
+    public TransactionDetails(MessageRoom messageRoom, Member member) {
         this.messageRoom = messageRoom;
+        this.member = member;
     }
 }

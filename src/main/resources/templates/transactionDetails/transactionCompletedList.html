@@ -16,9 +16,9 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="transDetail, status: ${transDetailDto.getContent()}">
+    <tr th:each="transDetail, status: ${transDetailDto}">
         <td>
-            <img th:src="${transDetail.imgUrl}" th:alt="이미지" width="100px" height="100px">
+            <img th:src="${transDetail.itemImgUrl}" th:alt="이미지" width="100px" height="100px">
         </td>
         <td th:text="${transDetail.itemName}">
             <!--                    <a th:href="'/admin/item/'+${item.id}" th:text="${item.itemNm}"></a>-->

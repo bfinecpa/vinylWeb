@@ -6,7 +6,13 @@
 </head>
 <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 <body>
-메인페이지
+<div>메인페이지</div>
+
+<a href="/item/new"> 상품등록</a>
+<a href="/item/manage"> 등록한 상품 관리</a>
+<a href="/message_list.do">메세지룸</a>
+<a href="/transactionCompletedList">거래 완료 목록</a>
+<a href="/getWishList"> 위시리스트</a>
 
 <form th:action="@{/}" method="get">
     <input name="searchQuery" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
