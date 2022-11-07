@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="16x16"
+          th:href="@{/img/logo_font_gray.png}" href="../img/logo_font_gray.png">
+    <title>HiVinyl</title>
+    <style>
+        .container {
+            max-width: 500px;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand bg-light">
+    <div class="container-fluid justify-content-start">
+        <a class="navbar-brand" href="#" th:href="@{/}">
+            <img src="img/logo_font_gray.png" alt="HiVinyl" width="50" height="50">
+        </a>
+        <div class="" id="navbarNav">
+            <div class="navbar-nav">
+                <a class="nav-link" href="#">중고거래</a>
+                <a class="nav-link" href="#">가계부</a>
+                <a class="nav-link active" aria-current="page" th:href="@{/search}">가격비교</a>
+                <a class="nav-link" href="../post/list.html" th:href="@{/post}">자유게시판</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <form class="d-flex" th:action th:method="get">
+        <input class="form-control me-2" type="text" th:name="keyword" placeholder="가수나 앨범 이름을 입력하세요.">
+        <button class="btn btn-outline-secondary" type="submit">Search</button>
+    </form>
+</div>
+
+</body>
+</html>
