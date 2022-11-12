@@ -3,7 +3,9 @@ package project.vinyl.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import project.vinyl.entity.Member;
+import project.vinyl.entity.TotalLedger;
 import project.vinyl.repository.MemberRepository;
+import project.vinyl.repository.TotalLedgerRepository;
 
 import java.util.Optional;
 
@@ -11,9 +13,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final TotalLedgerRepository totalLedgerRepository;
 
     public Member join(Member member) {
         validateDuplicateMember(member);
+        TotalLedger totalLedger = new TotalLedger(member);
         return memberRepository.save(member);
     }
 

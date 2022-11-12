@@ -4,32 +4,15 @@
   <meta charset="utf-8">
   <link th:href="@{/css/bootstrap.min.css}"
         href="../css/bootstrap.min.css" rel="stylesheet">
-  <link rel="icon" type="image/png" sizes="16x16"
-        th:href="@{/img/logo_font_gray.png}" href="../img/logo_font_gray.png">
-  <title>HiVinyl</title>
 </head>
 <body>
-<nav class="navbar navbar-expand bg-light">
-  <div class="container-fluid justify-content-start">
-    <a class="navbar-brand ms-2" href="#" th:href="@{/}">
-      <img th:src="@{/img/name_black.png}" alt="HiVinyl" width="77" height="56">
-    </a>
-    <div class="" id="navbarNav">
-      <div class="navbar-nav">
-        <a class="nav-link" th:href="@{/}">중고거래</a>
-        <a class="nav-link" href="#">가계부</a>
-        <a class="nav-link" th:href="@{/search}">가격비교</a>
-        <a class="nav-link" th:href="@{/post}">자유게시판</a>
-      </div>
-    </div>
-    <a class="ms-auto me-2" th:href="@{/myPage}">
-      <img th:src="@{/img/user-solid.svg}" alt="myPage" width="20" height="20">
-    </a>
-  </div>
-</nav>
 
 <div class="container" style="max-width: 600px">
-  <div class="row my-3">
+  <div class="py-5 text-center">
+    <h2 th:onclick="|location.href='@{/}'|">HIVINYL</h2>
+  </div>
+
+  <div class="row">
     <div class="col">
       <button class="w-100 btn btn-secondary btn-lg" type="button"
               th:onclick="|location.href='@{/members/add}'|">
@@ -43,6 +26,18 @@
       </button>
     </div>
   </div>
+  <hr class="my-4">
+
+  <div class="row">
+    <div class="col">
+      <button class="w-100 btn btn-secondary btn-lg" type="button"
+              th:onclick="|location.href='@{/}'|">
+        메인화면
+      </button>
+    </div>
+  </div>
+
+  <hr class="my-4">
 
 </div> <!-- /container -->
 

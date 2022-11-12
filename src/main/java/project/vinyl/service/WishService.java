@@ -59,6 +59,16 @@ public class WishService {
         return wishItemDto;
     }
 
+    public void deleteWishItem(Long memberId, Long wishItemId){
+        Member member = memberRepository.findById(memberId).orElseThrow(EntityExistsException::new);
+        WishList byMemberId = wishListRepository.findByMemberId(memberId);
+
+        WishItem wishItem = wishItemRepository.findById(wishItemId).orElseThrow(EntityExistsException::new);
+        if(wishItem.getWishList()==byMemberId){
+            wishItemRepository.delete(wishItem);
+        }
+    }
+
 
 
 }

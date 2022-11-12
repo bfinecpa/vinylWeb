@@ -16,7 +16,7 @@ public interface TransactionDetailsRepository extends JpaRepository<TransactionD
     List<TransactionDetails> findByMessageRoomId(Long messageRoomId);
 
     @Query(value = "select " +
-    "new project.vinyl.dto.TransactionDetailsDto(trans1.id, item.name, iimg.imgUrl, mem.name) " +
+    "new project.vinyl.dto.TransactionDetailsDto(trans1.id, item.name, item.price, iimg.imgUrl, mem.name) " +
     "from TransactionDetails trans1 , TransactionDetails trans2 " +
     "inner join MessageRoom mr on mr.id = trans1.messageRoom.id " +
     "inner join Item item on item.id = mr.item.id " +

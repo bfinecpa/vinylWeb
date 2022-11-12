@@ -28,7 +28,7 @@ public class WishItemRepositoryCustomImpl implements WishItemRepositoryCustom{
         QWishItem wishItem = QWishItem.wishItem;
 
         List<CRUDWishItemDto> fetch = queryFactory
-                .select(new QCRUDWishItemDto(item.id, item.name, item.price, item.negotiation, itemImg.imgUrl, item.itemSellStatus))
+                .select(new QCRUDWishItemDto(wishItem.id, item.id, item.name, item.price, item.negotiation, itemImg.imgUrl, item.itemSellStatus))
                 .from(wishItem, itemImg)
                 .join(wishItem.item, item)
                 .where(wishItem.item.id.eq(itemImg.item.id))

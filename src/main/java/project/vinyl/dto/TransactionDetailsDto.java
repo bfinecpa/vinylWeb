@@ -13,13 +13,16 @@ public class TransactionDetailsDto {
 
     private String itemName;
 
+    private int price;
+
     private String itemImgUrl;
 
     private String sellerName;
 
-    public TransactionDetailsDto(Long id, String itemName, String itemImgUrl, String sellerName) {
+    public TransactionDetailsDto(Long id, String itemName, int price, String itemImgUrl, String sellerName) {
         this.id = id;
         this.itemName = itemName;
+        this.price = price;
         this.itemImgUrl = itemImgUrl;
         this.sellerName = sellerName;
     }

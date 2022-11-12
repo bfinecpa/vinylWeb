@@ -17,6 +17,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/images/**")
                 .addResourceLocations(uploadPath);
+        registry.addResourceHandler("/image/**")
+                .addResourceLocations("classpath:/static/image/");
+        registry.addResourceHandler("/css/**")
+                .addResourceLocations("classpath:/static/css/");
+        registry.addResourceHandler("/js/**")
+                .addResourceLocations("classpath:/static/js/");
     }
 
     @Override
@@ -24,8 +30,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LoginCheckInterceptor())
                 .order(1)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/", "/home", "/members/add", "/login", "/logout",
-                        "/css/**", "/img/**", "/*.ico", "/error", "/search");
+                .excludePathPatterns("/", "/home", "/members/add", "/login", "/logout","/image/**", "/test",
+                        "/css/**", "/img/**", "/*.ico", "/error", "/search", "/*.css", "/*.js", "/js/**");
     }
 
 

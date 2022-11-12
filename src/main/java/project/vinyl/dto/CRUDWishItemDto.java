@@ -13,6 +13,8 @@ public class CRUDWishItemDto {
 
     private Long id;
 
+    private Long itemId;
+
     private String name;
 
     private int price;
@@ -24,8 +26,9 @@ public class CRUDWishItemDto {
     private ItemSellStatus itemSellStatus;
 
     @QueryProjection
-    public CRUDWishItemDto(Long id, String name, int price, boolean negotiation, String imgUrl, ItemSellStatus itemSellStatus) {
+    public CRUDWishItemDto(Long id, Long itemId,String name, int price, boolean negotiation, String imgUrl, ItemSellStatus itemSellStatus) {
         this.id = id;
+        this.itemId = itemId;
         this.name = name;
         this.price = price;
         this.negotiation = negotiation;

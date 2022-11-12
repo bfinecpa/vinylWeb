@@ -29,6 +29,7 @@ public class MessageController {
     private final MessageRoomService messageRoomService;
     private final MessageRoomRepository messageRoomRepository;
     private final TransactionDetailsRepository transactionDetailsRepository;
+    private final TotalLedgerRepository totalLedgerRepository;
 
 
     @PostConstruct
@@ -37,6 +38,11 @@ public class MessageController {
         Member member2 = new Member("ss", "ss", "임꺽정", "테스트", "1234");
         memberRepository.save(member);
         memberRepository.save(member2);
+        TotalLedger totalLedger = new TotalLedger(member);
+        TotalLedger totalLedger1 = new TotalLedger(member2);
+        totalLedgerRepository.save(totalLedger);
+        totalLedgerRepository.save(totalLedger1);
+
         /*Item item = new Item("test", "testtest", 10, 10, true, ItemSellStatus.SELL, member);
         itemRepository.save(item);
         ItemImg itemImg = new ItemImg("aa.png", "aa.png", "Y", item, "/image/item/aa.png");
