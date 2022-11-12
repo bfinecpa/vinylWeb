@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <link th:href="@{/css/bootstrap.min.css}"
+        href="../css/bootstrap.min.css" rel="stylesheet">
+  <link rel="icon" type="image/png" sizes="16x16"
+        th:href="@{/img/logo_font_gray.png}" href="../img/logo_font_gray.png">
+  <title>HiVinyl</title>
+</head>
+<body>
+<nav class="navbar navbar-expand bg-light">
+  <div class="container-fluid justify-content-start">
+    <a class="navbar-brand ms-2" href="#" th:href="@{/}">
+      <img th:src="@{/img/name_black.png}" alt="HiVinyl" width="77" height="56">
+    </a>
+    <div class="" id="navbarNav">
+      <div class="navbar-nav">
+        <a class="nav-link" th:href="@{/}">중고거래</a>
+        <a class="nav-link" href="#">가계부</a>
+        <a class="nav-link" th:href="@{/search}">가격비교</a>
+        <a class="nav-link" th:href="@{/post}">자유게시판</a>
+      </div>
+    </div>
+    <a class="ms-auto me-2" th:href="@{/myPage}">
+      <img th:src="@{/img/user-solid.svg}" alt="myPage" width="20" height="20">
+    </a>
+  </div>
+</nav>
+
+<div class="container" style="max-width: 700px">
+
+  <div class="row my-4 mx-auto" style="max-width: 600px">
+    <div class="col">
+      <h5 class="" th:text="|${member.name}님 환영합니다|">로그인 사용자 이름</h5>
+    </div>
+    <div class="col-auto">
+      <button class="btn btn-outline-secondary btn-sm" type="button"
+              th:onclick="|location.href='@{/members/delete}'|">
+        회원탈퇴
+      </button>
+    </div>
+    <div class="col-auto">
+      <form th:action="@{/logout}" method="post">
+        <button class="btn btn-outline-secondary btn-sm" onclick="location.href='items.html'" type="submit">
+          로그아웃
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <hr class="mb-4">
+
+  <div class="row my-3">
+    <div class="col">
+      <button class="w-100 btn btn-outline-dark btn-lg" type="button"
+              th:onclick="|location.href='@{/item/new}'|">
+        새 상품 등록
+      </button>
+    </div>
+    <div class="col">
+      <button class="w-100 btn btn-outline-dark btn-lg" type="button"
+              th:onclick="|location.href='@{/item/manage}'|">
+        등록한 상품 관리
+      </button>
+    </div>
+    <div class="col">
+      <button class="w-100 btn btn-outline-dark btn-lg" type="button"
+              th:onclick="|location.href='@{/transactionCompletedList}'|">
+        거래 완료 목록
+      </button>
+    </div>
+  </div>
+  <div class="row my-3">
+    <div class="col">
+      <button class="w-100 btn btn-outline-dark btn-lg" type="button"
+              th:onclick="|location.href='@{/message_list.do}'|">
+        메시지 룸
+      </button>
+    </div>
+    <div class="col">
+      <button class="w-100 btn btn-outline-dark btn-lg" type="button"
+              th:onclick="|location.href='@{/getWishlist}'|">
+        위시리스트
+      </button>
+    </div>
+    <div class="col"></div>
+  </div>
+</div>
+</body>
+</html>

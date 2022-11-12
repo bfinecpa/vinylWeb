@@ -4,6 +4,9 @@
     <meta charset="utf-8">
     <link th:href="@{/css/bootstrap.min.css}"
           href="../css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="16x16"
+          th:href="@{/img/logo_font_gray.png}" href="../img/logo_font_gray.png">
+    <title>HiVinyl</title>
     <style>
         .container {
             max-width: 560px;
@@ -16,11 +19,29 @@
     </style>
 </head>
 <body>
+<nav class="navbar navbar-expand bg-light">
+    <div class="container-fluid justify-content-start">
+        <a class="navbar-brand ms-2" href="#" th:href="@{/}">
+            <img th:src="@{/img/name_black.png}" alt="HiVinyl" width="77" height="56">
+        </a>
+        <div class="" id="navbarNav">
+            <div class="navbar-nav">
+                <a class="nav-link" th:href="@{/}">중고거래</a>
+                <a class="nav-link" href="#">가계부</a>
+                <a class="nav-link" th:href="@{/search}">가격비교</a>
+                <a class="nav-link active" aria-current="page" th:href="@{/post}">자유게시판</a>
+            </div>
+        </div>
+        <a class="ms-auto me-2" th:href="@{/myPage}">
+            <img th:src="@{/img/user-solid.svg}" alt="myPage" width="20" height="20">
+        </a>
+    </div>
+</nav>
 
 <div class="container">
 
-    <div class="py-5 text-center">
-        <h2>게시글 작성</h2>
+    <div class="py-3 text-center">
+        <h4>게시글 작성</h4>
     </div>
 
     <form action="getPost.html" th:action th:object="${postFormDto}" method="post">
@@ -41,15 +62,12 @@
                    placeholder="내용을 입력하세요" th:errorclass="field-error">
             <div class="field-error" th:errors="*{content}" />
         </div>
-
-        <hr class="my-4">
-
-        <div class="row">
+        <div class="row my-4">
             <div class="col">
-                <button class="w-100 btn btn-dark btn-lg" type="submit">게시글 등록</button>
+                <button class="w-100 btn btn-secondary btn-lg" type="submit">게시글 등록</button>
             </div>
             <div class="col">
-                <button class="w-100 btn btn-secondary btn-lg"
+                <button class="w-100 btn btn-light btn-lg"
                         onclick="location.href='items.html'"
                         th:onclick="|location.href='@{/post}'|"
                         type="button">취소</button>

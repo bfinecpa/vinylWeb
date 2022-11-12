@@ -4,12 +4,9 @@
     <meta charset="utf-8">
     <link th:href="@{/css/bootstrap.min.css}"
           href="../css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .container {
-            max-width: 560px;
-            margin-bottom: 30px;
-        }
-    </style>
+    <link rel="icon" type="image/png" sizes="16x16"
+          th:href="@{/img/logo_font_gray.png}" href="../img/logo_font_gray.png">
+    <title>HiVinyl</title>
 </head>
 <body>
 <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -60,57 +57,60 @@
     </script>
 </th:block>
 
+<nav class="navbar navbar-expand bg-light">
+    <div class="container-fluid justify-content-start">
+        <a class="navbar-brand ms-2" href="#" th:href="@{/}">
+            <img th:src="@{/img/name_black.png}" alt="HiVinyl" width="77" height="56">
+        </a>
+        <div class="" id="navbarNav">
+            <div class="navbar-nav">
+                <a class="nav-link" th:href="@{/}">중고거래</a>
+                <a class="nav-link" href="#">가계부</a>
+                <a class="nav-link" th:href="@{/search}">가격비교</a>
+                <a class="nav-link active" aria-current="page" th:href="@{/post}">자유게시판</a>
+            </div>
+        </div>
+        <a class="ms-auto me-2" th:href="@{/myPage}">
+            <img th:src="@{/img/user-solid.svg}" alt="myPage" width="20" height="20">
+        </a>
+    </div>
+</nav>
+
 <div class="container">
 
-    <div class="pt-5 text-center">
-        <h2>게시글 보기</h2>
-    </div>
-
-    <div class="row">
+    <div class="py-3 text-start row align-items-center">
         <div class="col">
-            <button class="btn btn-dark float-end"
-                    onclick="location.href='list.html'"
-                    th:onclick="|location.href='@{/post}'|"
-                    type="button">게시글 목록</button>
+            <h6>자유 게시판</h6>
+            <p class="text-secondary m-0 d-block"></p>
         </div>
-    </div>
-
-    <hr class="my-3">
-
-    <div class="row" th:if="${loginMember.id == post.member.id}">
-        <div class="col">
-            <button class="w-100 btn btn-dark btn-lg"
+        <div class="col-auto" th:if="${loginMember.id == post.member.id}">
+            <button class="btn btn-secondary"
                     onclick="location.href='editForm.html'"
                     th:onclick="|location.href='@{/post/{postId}/edit(postId=${post.id})}'|"
                     type="button">게시글 수정</button>
         </div>
-        <div class="col">
-            <button class="w-100 btn btn-secondary btn-lg"
-                    onclick="deletePost()" th:onclick="|deletePost();|"
-                    type="button">게시글 삭제</button>
+            <div class="col-auto" th:if="${loginMember.id == post.member.id}">
+                <button class="btn btn-light"
+                        onclick="deletePost()" th:onclick="|deletePost();|"
+                        type="button">게시글 삭제</button>
 
+            </div>
         </div>
     </div>
 
-    <div>
-        <label for="postId">no.</label>
-        <input type="text" id="postId" name="postId" class="form-control" value="1" th:value="${post.id}" readonly>
-    </div>
-    <div>
-        <label for="postTitle">title</label>
-        <input type="text" id="postTitle" name="postTitle" class="form-control" value="title" th:value="${post.title}" readonly>
-    </div>
-    <div>
-        <label for="postContent">content</label>
-        <input type="text" id="postContent" name="postContent" class="form-control" value="content" th:value="${post.content}" readonly>
-    </div>
-    <div>
-        <label for="hits">hits</label>
-        <input type="text" id="hits" name="hits" class="form-control" value="10" th:value="${post.hits}" readonly>
-    </div>
-    <div>
-        <label for="regTime">time</label>
-        <input type="text" id="regTime" name="regTime" class="form-control" value="10" th:value="${#temporals.format(post.updateTime,'yyyy.MM.dd HH:mm')}" readonly>
+    <div class="container bg-light rounded-3">
+        <div class="fs-5 py-2">
+            <strong th:text="${post.title}"></strong>
+        </div>
+
+        <div class="text-secondary ">
+            <span th:text="|${post.member.name}|" class="px-1"></span>
+            <span th:text="|조회수 ${post.hits}|" class="px-1"></span>
+            <span th:text="${#temporals.format(post.updateTime,'yyyy.MM.dd HH:mm')}" class="px-1"></span>
+        </div>
+        <div>
+            <input type="text" id="postContent" name="postContent" class="form-control" value="content" th:value="${post.content}" readonly>
+        </div>
     </div>
 
 <!--댓글 영역-->
