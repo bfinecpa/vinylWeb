@@ -7,34 +7,75 @@
     <link rel="icon" type="image/png" sizes="16x16"
           th:href="@{/img/logo_font_gray.png}" href="../img/logo_font_gray.png">
     <title>HiVinyl</title>
-    <style>
-        .container {
-            max-width: 500px;
-        }
-    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand bg-light">
     <div class="container-fluid justify-content-start">
-        <a class="navbar-brand" href="#" th:href="@{/}">
-            <img src="img/logo_font_gray.png" alt="HiVinyl" width="50" height="50">
+        <a class="navbar-brand ms-2" href="#" th:href="@{/}">
+            <img th:src="@{/img/name_black.png}" alt="HiVinyl" width="77" height="56">
         </a>
         <div class="" id="navbarNav">
             <div class="navbar-nav">
-                <a class="nav-link" href="#">중고거래</a>
+                <a class="nav-link" th:href="@{/}">중고거래</a>
                 <a class="nav-link" href="#">가계부</a>
                 <a class="nav-link active" aria-current="page" th:href="@{/search}">가격비교</a>
-                <a class="nav-link" href="../post/list.html" th:href="@{/post}">자유게시판</a>
+                <a class="nav-link" th:href="@{/post}">자유게시판</a>
             </div>
         </div>
+        <a class="ms-auto me-2" th:href="@{/myPage}">
+            <img th:src="@{/img/user-solid.svg}" alt="myPage" width="20" height="20">
+        </a>
     </div>
 </nav>
 
-<div class="container mt-4">
+<div class="container my-4" style="max-width: 500px">
     <form class="d-flex" th:action th:method="get">
         <input class="form-control me-2" type="text" th:name="keyword" placeholder="가수나 앨범 이름을 입력하세요.">
         <button class="btn btn-outline-secondary" type="submit">Search</button>
     </form>
+</div>
+
+<div th:if="${hasKeyword}" class="px-5 pb-4">
+    <div class="container">
+        <p class="m-3" th:if="${!hasResult}" th:text="|${keyword}에 대한 검색 결과가 없습니다.|"></p>
+        <p class="m-3" th:if="${hasResult}" th:text="|${keyword}에 대한 검색 결과 ${resultList.size()}건이 있습니다.|"></p>
+    </div>
+    <ul th:if="${hasResult}" class="list-unstyled d-table container">
+        <li th:each="result : ${resultList}" th:onclick="|window.open('@{${result.itemLink}}')|"
+            class="d-inline-block m-3" style="cursor:pointer;">
+                <img th:src="${result.imgLink}" alt="상품이미지" width="200px" height="200px" style="object-fit: contain">
+            <div th:text="${result.name}" style="width: 200px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap">이름</div>
+            <div th:text="|${result.price}원|" class="float-end">가격</div>
+        </li>
+    </ul>
+
+    <div class="row">
+        <button class="w-50 btn btn-outline-secondary btn-light btn-lg mx-auto"
+                onclick="location.href='editForm.html'"
+                th:onclick="|window.open('@{https://search.shopping.naver.com/search/all?sort=price_asc&query={keyword}+lp&fo=true(keyword=${keyword})}')|"
+                type="button">네이버 검색 결과 보기</button>
+    </div>
+
+<!--    <table th:if="${hasResult}" class="table">-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th>이름</th>-->
+<!--            <th>가격</th>-->
+<!--            <th>링크</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <tr th:each="result : ${resultList}">-->
+<!--            <td th:text="${result.name}">이름</td>-->
+<!--            <td th:text="${result.price}">가격</td>-->
+<!--            <td>-->
+<!--                <a th:href="${result.itemLink}">-->
+<!--                    <img th:src="${result.imgLink}" alt="" width="50" height="50">-->
+<!--                </a>-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
 </div>
 
 </body>
