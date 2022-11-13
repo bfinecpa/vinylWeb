@@ -10,30 +10,28 @@
           th:href="@{/img/logo_font_gray.png}" href="../img/logo_font_gray.png">
 </head>
 <body>
-    <nav class="navbar navbar-expand bg-light justify-content-between mb-4">
+<nav class="navbar navbar-expand bg-light">
     <div class="container-fluid justify-content-start">
-        <a class="navbar-brand" href="#" th:href="@{/}">
-            <img src="/img/logo_font_gray.png" alt="HiVinyl" width="50" height="50">
+        <a class="navbar-brand ms-2" href="#" th:href="@{/}">
+            <img th:src="@{/img/name_black.png}" alt="HiVinyl" width="77" height="56">
         </a>
         <div class="" id="navbarNav">
             <div class="navbar-nav">
-                <a class="nav-link" href="#">중고거래</a>
-                <a class="nav-link" href="#">가계부</a>
-                <a class="nav-link active" aria-current="page" th:href="@{/search}">가격비교</a>
-                <a class="nav-link" href="../post/list.html" th:href="@{/post}">자유게시판</a>
+                <a class="nav-link" th:href="@{/}">중고거래</a>
+                <a class="nav-link" th:href="@{/ledger/getList}">가계부</a>
+                <a class="nav-link" th:href="@{/search}">가격비교</a>
+                <a class="nav-link" th:href="@{/post}">자유게시판</a>
             </div>
         </div>
-    </div>
-    <ul>
-        <a href="#" >
-            <img src="/img/user-solid.svg" alt="user" width="50" height="50" class="mt-3 pe-3">
+        <a class="ms-auto me-2" th:href="@{/myPage}">
+            <img th:src="@{/img/user-solid.svg}" alt="myPage" width="20" height="20">
         </a>
-    </ul>
+    </div>
 </nav>
     <form role="form" method="post" th:object="${ledgerFormDto}"
           class="ms-4 me-4">
 
-        <h4 class="mt-2" >가계부 등록</h4>
+        <h4 class="mt-4" >가계부 등록</h4>
         <input type="hidden" th:field="*{id}">
 
         <div class="form-group mt-3" >

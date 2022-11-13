@@ -40,11 +40,15 @@ public class WishController {
     }
 
     @GetMapping(value = {"/getWishList/{page}", "/getWistList"})
-    public String getWishList(Model model, HttpServletRequest request, @PathVariable("page") Optional<Integer> page){
+    public String getWishList(@PathVariable("page") Optional<Integer> page, Model model, HttpServletRequest request ){
+
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3);
+
         HttpSession session = request.getSession(false);
         Member member = (Member)session.getAttribute(SessionConst.LOGIN_MEMBER);
+
         Page<CRUDWishItemDto> wishItem = wishService.getWishItem(member.getId(), pageable);
+
         model.addAttribute("wishItem", wishItem);
         model.addAttribute("maxPage", 5);
         return "wish/wishList";

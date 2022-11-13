@@ -2,18 +2,45 @@
 <html lang="en">
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org">
+<link th:href="@{/css/bootstrap.min.css}"
+      href="../css/bootstrap.min.css" rel="stylesheet">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
 </head>
+
 <body>
-    <div> 거래를 완료하시겠습니까</div>
-    <form action="/completeTransaction" method="post">
-        <input type="hidden" name="messageRoomId" th:value="${messageRoomId}">
-        <input type="submit" value="거래 완료">
-    </form>
+<nav class="navbar navbar-expand bg-light">
+    <div class="container-fluid justify-content-start">
+        <a class="navbar-brand ms-2" href="#" th:href="@{/}">
+            <img th:src="@{/img/name_black.png}" alt="HiVinyl" width="77" height="56">
+        </a>
+        <div class="" id="navbarNav">
+            <div class="navbar-nav">
+                <a class="nav-link" th:href="@{/}">중고거래</a>
+                <a class="nav-link" th:href="@{/ledger/getList}">가계부</a>
+                <a class="nav-link" th:href="@{/search}">가격비교</a>
+                <a class="nav-link" th:href="@{/post}">자유게시판</a>
+            </div>
+        </div>
+        <a class="ms-auto me-2" th:href="@{/myPage}">
+            <img th:src="@{/img/user-solid.svg}" alt="myPage" width="20" height="20">
+        </a>
+    </div>
+</nav>
 
-
+<div style="width: 100%; display: flex; justify-content: center;" >
+    <div class="card mt-5 " style="width: 18rem; justify-content: center;" >
+        <div class="card-body">
+            <h5 class="card-title">거래를 완료 하시겠습니까?</h5>
+            <form action="/completeTransaction" method="post" th:class="mt-5">
+                <input type="hidden" name="messageRoomId" th:value="${messageRoomId}">
+                <input type="submit" value="거래 완료">
+            </form>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

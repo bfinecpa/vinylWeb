@@ -33,4 +33,21 @@ public class HomeController {
         return "loginHome";
 
     }
+    @GetMapping("/myPage")
+    public String myPage(HttpServletRequest request, Model model) {
+
+        // 이 부분 없어도 어차피 로그인 화면으로 넘어감,,,
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return "login/loginForm";
+        }
+        Member member = (Member)session.getAttribute(SessionConst.LOGIN_MEMBER);
+        if (member == null) {
+            return "login/loginForm";
+        }
+
+        model.addAttribute("member", member);
+        return "myPage";
+
+    }
 }

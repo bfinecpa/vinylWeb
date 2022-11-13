@@ -1,39 +1,89 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+>
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="16x16"
+          th:href="@{/img/logo_font_gray.png}" href="../img/logo_font_gray.png">
 </head>
+
 <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+<!-- 사용자 스크립트 추가 -->
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+
+        function page(page){
+            location.href="/getWistList/" + page;
+        }
+
+    </script>
+</th:block>
 <body>
-<table class="table">
-    <thead>
-    <tr>
-        <td>상품이미지</td>
-        <td>상품명</td>
-        <td>상태</td>
-        <td>가격</td>
-    </tr>
-    </thead>
-    <tbody>
-        <div th:if="${wishItem != null}">
-            <tr th:each="item, status: ${wishItem.getContent()}">
-                <td>
-                    <img th:src="${item.imgUrl}" th:alt="${item.name}" width="100px" height="100px">
-                </td>
-                <td th:text="${item.name}">
-                    <!--                    <a th:href="'/admin/item/'+${item.id}" th:text="${item.itemNm}"></a>-->
-
-                </td>
-                <td th:text="${item.itemSellStatus == T(project.vinyl.constant.ItemSellStatus).SELL} ? '판매중' : '품절'"></td>
-                <td th:text="${item.price}"></td>
-            </tr>
+<nav class="navbar navbar-expand bg-light">
+    <div class="container-fluid justify-content-start">
+        <a class="navbar-brand ms-2" href="#" th:href="@{/}">
+            <img th:src="@{/img/name_black.png}" alt="HiVinyl" width="77" height="56">
+        </a>
+        <div class="" id="navbarNav">
+            <div class="navbar-nav">
+                <a class="nav-link" th:href="@{/}">중고거래</a>
+                <a class="nav-link" th:href="@{/ledger/getList}">가계부</a>
+                <a class="nav-link" th:href="@{/search}">가격비교</a>
+                <a class="nav-link" th:href="@{/post}">자유게시판</a>
+            </div>
         </div>
-    </tbody>
+        <a class="ms-auto me-2" th:href="@{/myPage}">
+            <img th:src="@{/img/user-solid.svg}" alt="myPage" width="20" height="20">
+        </a>
+    </div>
+</nav>
 
+<main class="mt-4 pt-4">
+    <div class="container-fluid px-4">
+        <h2 class="mt-4">등록 상품 관리</h2>
 
-</table>
+        <div class="card mb-4">
+            <div class="card-header">
+                <div>
+                    <i class="fas fa-table me-1">
 
+                    </i>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover table-striped">
+                    <thead>
+                    <tr>
+                        <th>상품이미지</th>
+                        <th>제목</th>
+                        <th>상태</th>
+                        <th>가격</th>
+                        <th> </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <div th:if="${wishItem != null}">
+                        <tr th:each="item, status: ${wishItem.getContent()}" class="align-middle">
+                            <td >
+                                <img th:src="${item.imgUrl}" th:alt="${item.name}" width="100px" height="100px">
+                            </td>
+                            <td>
+                                <a th:href="'/item/update/' + ${item.id}" th:text="${item.name}"></a>
+                                <!--                    <a th:href="'/admin/item/'+${item.id}" th:text="${item.itemNm}"></a>-->
+
+                            </td>
+                            <td th:text="${item.itemSellStatus == T(project.vinyl.constant.ItemSellStatus).SELL} ? '판매중' : '품절'"></td>
+                            <td th:text="${item.price}"></td>
+                        </tr>
+                    </div>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
 </body>
 </html>

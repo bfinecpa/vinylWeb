@@ -17,25 +17,23 @@
 </head>
 <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 <body>
-<nav class="navbar navbar-expand bg-light justify-content-between">
+<nav class="navbar navbar-expand bg-light" style="height: 82px">
     <div class="container-fluid justify-content-start">
-        <a class="navbar-brand" href="#" th:href="@{/}">
-            <img src="/img/logo_font_gray.png" alt="HiVinyl" width="50" height="50">
+        <a class="navbar-brand ms-2" href="#" th:href="@{/}">
+            <img th:src="@{/img/name_black.png}" alt="HiVinyl" width="77" height="56" style="width: 77px; height: 56px;">
         </a>
         <div class="" id="navbarNav">
             <div class="navbar-nav">
-                <a class="nav-link" href="#">중고거래</a>
-                <a class="nav-link" href="#">가계부</a>
-                <a class="nav-link active" aria-current="page" th:href="@{/search}">가격비교</a>
-                <a class="nav-link" href="../post/list.html" th:href="@{/post}">자유게시판</a>
+                <a class="nav-link" th:href="@{/}">중고거래</a>
+                <a class="nav-link" th:href="@{/ledger/getList}">가계부</a>
+                <a class="nav-link" th:href="@{/search}">가격비교</a>
+                <a class="nav-link" th:href="@{/post}">자유게시판</a>
             </div>
         </div>
-    </div>
-    <ul>
-        <a href="#" >
-            <img src="/img/user-solid.svg" alt="user" width="50" height="50" class="mt-3 pe-3">
+        <a class="ms-auto me-2" th:href="@{/myPage}">
+            <img th:src="@{/img/user-solid.svg}" alt="myPage" width="20" height="20" style="height: 20px; width: 20px;">
         </a>
-    </ul>
+    </div>
 </nav>
 
 <br />

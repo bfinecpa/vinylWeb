@@ -56,6 +56,8 @@ public class WishService {
         }
         Page<CRUDWishItemDto> wishItemDto = wishItemRepository.getWishItemDto(wishList.getId(), pageable);
 
+        int number = wishItemDto.getNumber();
+        System.out.println("number = " + number);
         return wishItemDto;
     }
 

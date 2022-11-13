@@ -43,7 +43,7 @@
     <ul th:if="${hasResult}" class="list-unstyled d-table container">
         <li th:each="result : ${resultList}" th:onclick="|window.open('@{${result.itemLink}}')|"
             class="d-inline-block m-3" style="cursor:pointer;">
-                <img th:src="${result.imgLink}" alt="상품이미지" width="200px" height="200px" style="object-fit: contain">
+            <img th:src="${result.imgLink}" alt="상품이미지" width="200px" height="200px" style="object-fit: contain">
             <div th:text="${result.name}" style="width: 200px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap">이름</div>
             <div th:text="|${result.price}원|" class="float-end">가격</div>
         </li>
@@ -56,26 +56,26 @@
                 type="button">네이버 검색 결과 보기</button>
     </div>
 
-<!--    <table th:if="${hasResult}" class="table">-->
-<!--        <thead>-->
-<!--        <tr>-->
-<!--            <th>이름</th>-->
-<!--            <th>가격</th>-->
-<!--            <th>링크</th>-->
-<!--        </tr>-->
-<!--        </thead>-->
-<!--        <tbody>-->
-<!--        <tr th:each="result : ${resultList}">-->
-<!--            <td th:text="${result.name}">이름</td>-->
-<!--            <td th:text="${result.price}">가격</td>-->
-<!--            <td>-->
-<!--                <a th:href="${result.itemLink}">-->
-<!--                    <img th:src="${result.imgLink}" alt="" width="50" height="50">-->
-<!--                </a>-->
-<!--            </td>-->
-<!--        </tr>-->
-<!--        </tbody>-->
-<!--    </table>-->
+    <!--    <table th:if="${hasResult}" class="table">-->
+    <!--        <thead>-->
+    <!--        <tr>-->
+    <!--            <th>이름</th>-->
+    <!--            <th>가격</th>-->
+    <!--            <th>링크</th>-->
+    <!--        </tr>-->
+    <!--        </thead>-->
+    <!--        <tbody>-->
+    <!--        <tr th:each="result : ${resultList}">-->
+    <!--            <td th:text="${result.name}">이름</td>-->
+    <!--            <td th:text="${result.price}">가격</td>-->
+    <!--            <td>-->
+    <!--                <a th:href="${result.itemLink}">-->
+    <!--                    <img th:src="${result.imgLink}" alt="" width="50" height="50">-->
+    <!--                </a>-->
+    <!--            </td>-->
+    <!--        </tr>-->
+    <!--        </tbody>-->
+    <!--    </table>-->
 </div>
 
 </body>

@@ -1,21 +1,3 @@
-:root{
-    --text-main: #000000;
-    --text-sub: #444444;
-    --light-gray: #888888;
-    --bg-color: #eeeeee;
-    --font-main: 24px;
-    --font-sub: 18px;
-    --font-third: 14px;
-}
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Nanum Gothic', sans-serif;
-    font-weight: 400;
-    font-size: var(--font-main);
-    line-height: var(--font-main);
-}
 
 #logo, #logo img{
     width: 100px;

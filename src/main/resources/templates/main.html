@@ -4,39 +4,37 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="/css/postView.css">
     <link th:href="@{/css/bootstrap.min.css}"
           href="../css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/postView.css">
     <link rel="icon" type="image/png" sizes="16x16"
           th:href="@{/img/logo_font_gray.png}" href="../img/logo_font_gray.png">
 </head>
 <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 <body>
-<nav class="navbar navbar-expand bg-light justify-content-between">
+<nav class="navbar navbar-expand bg-light">
     <div class="container-fluid justify-content-start">
-        <a class="navbar-brand" href="#" th:href="@{/}">
-            <img src="/img/logo_font_gray.png" alt="HiVinyl" width="50" height="50">
+        <a class="navbar-brand ms-2" href="#" th:href="@{/}">
+            <img th:src="@{/img/name_black.png}" alt="HiVinyl" width="77" height="56">
         </a>
         <div class="" id="navbarNav">
             <div class="navbar-nav">
-                <a class="nav-link" href="#">중고거래</a>
-                <a class="nav-link" href="/ledger/getList">가계부</a>
-                <a class="nav-link active" aria-current="page" th:href="@{/search}">가격비교</a>
-                <a class="nav-link" href="../post/list.html" th:href="@{/post}">자유게시판</a>
+                <a class="nav-link" th:href="@{/}">중고거래</a>
+                <a class="nav-link" th:href="@{/ledger/getList}">가계부</a>
+                <a class="nav-link" th:href="@{/search}">가격비교</a>
+                <a class="nav-link" th:href="@{/post}">자유게시판</a>
             </div>
         </div>
-    </div>
-    <ul>
-        <a href="#" >
-            <img src="/img/user-solid.svg" alt="user" width="50" height="50" class="mt-3 pe-3">
+        <a class="ms-auto me-2" th:href="@{/myPage}">
+            <img th:src="@{/img/user-solid.svg}" alt="myPage" width="20" height="20">
         </a>
-    </ul>
+    </div>
 </nav>
 
 <main>
     <div class="name">
         <div class="contentName">
-            <div class="mainName">중고 거래</div>
+            <div class="mainName" style="font-size: 25px">중고 거래</div>
             <div class="detailName">최신글 보기</div>
         </div>
         <div class="additional">
@@ -63,7 +61,7 @@
             </th:block>
         </th:block>
         <th:block th:if="${items.getContent().isEmpty()}">
-            <div class="container row d-flex justify-content-center">
+            <div class="container d-flex justify-content-center">
                 검색 결과가 없습니다.
             </div>
         </th:block>

@@ -13,13 +13,13 @@
 <!--                        <img src="./upload/profile/${tmp.profile}" alt="sunil" >-->
 <!--                    </a> 아이템 이미지랑 클릭하면 아이템 화면으로 갈수 있게-->
                 </div>
-                <div class="chat_ib">
-                    <h5 th:text="${tmp.itemName}">
+                <div class="chat_ib" style="display: flex;">
+                    <h5 th:text="${tmp.itemName}" style="margin-top: 3px;">
 <!--                    시간    <span class="chat_date" th:text="${tmp.send_time }"></span>-->
                     </h5>
-                    <div th:text="${tmp.id}"></div>
                     <span>
-                        <button th:onclick="|location.href='@{completeTransaction(messageRoomId=${tmp.id})}'|">거래 완료하기</button>
+                        <button class="btn btn-outline-success" th:onclick="|location.href='@{completeTransaction(messageRoomId=${tmp.id})}'|"
+                        style="margin-left: 200px; margin-bottom: 3px;">거래 완료하기</button>
                     </span>
                     <div class="row">
                         <!--<div class="col-10">
