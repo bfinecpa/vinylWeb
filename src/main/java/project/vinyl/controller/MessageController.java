@@ -32,29 +32,6 @@ public class MessageController {
     private final TotalLedgerRepository totalLedgerRepository;
 
 
-    @PostConstruct
-    public void newMember(){
-        Member member = new Member("aa", "aa", "홍길동", "테스트", "1234");
-        Member member2 = new Member("ss", "ss", "임꺽정", "테스트", "1234");
-        memberRepository.save(member);
-        memberRepository.save(member2);
-        TotalLedger totalLedger = new TotalLedger(member);
-        TotalLedger totalLedger1 = new TotalLedger(member2);
-        totalLedgerRepository.save(totalLedger);
-        totalLedgerRepository.save(totalLedger1);
-
-        /*Item item = new Item("test", "testtest", 10, 10, true, ItemSellStatus.SELL, member);
-        itemRepository.save(item);
-        ItemImg itemImg = new ItemImg("aa.png", "aa.png", "Y", item, "/image/item/aa.png");
-        itemImgRepository.save(itemImg);
-        MessageRoom messageRoom = new MessageRoom(item, member, member2);
-        messageRoomRepository.save(messageRoom);
-        TransactionDetails transactionDetails = new TransactionDetails(messageRoom, member);
-        TransactionDetails transactionDetails2 = new TransactionDetails(messageRoom, member2);
-        transactionDetailsRepository.save(transactionDetails2);
-        transactionDetailsRepository.save(transactionDetails);*/
-    }
-
 
     @PostMapping(value= "/message")
     public String startMessage(HttpServletRequest request, @RequestParam Long itemId,

@@ -17,8 +17,10 @@ public class MemberService {
 
     public Member join(Member member) {
         validateDuplicateMember(member);
+        memberRepository.save(member);
         TotalLedger totalLedger = new TotalLedger(member);
-        return memberRepository.save(member);
+        totalLedgerRepository.save(totalLedger);
+        return member;
     }
 
     private void validateDuplicateMember(Member member) {

@@ -15,7 +15,7 @@ public class TotalLedger {
     @GeneratedValue
     private Long id;
 
-    @OneToOne
+    @OneToOne (cascade = CascadeType.REMOVE)
     @JoinColumn(name = "member_id")
     private Member member;
 
