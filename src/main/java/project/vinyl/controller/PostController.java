@@ -151,4 +151,14 @@ public class PostController {
 
         return "redirect:/post";
     }
+
+    @GetMapping("/myPost")
+    public String myPost(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+
+        List<PostViewDto> postList = postService.myPost(loginMember.getId());
+        model.addAttribute("postList", postList);
+        return "post/myPost";
+    }
 }

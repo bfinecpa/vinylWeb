@@ -89,65 +89,75 @@
                     th:onclick="|location.href='@{/post/{postId}/edit(postId=${post.id})}'|"
                     type="button">게시글 수정</button>
         </div>
-        <div class="col-auto" th:if="${loginMember.id == post.member.id}">
-            <button class="btn btn-light"
-                    onclick="deletePost()" th:onclick="|deletePost();|"
-                    type="button">게시글 삭제</button>
+            <div class="col-auto" th:if="${loginMember.id == post.member.id}">
+                <button class="btn btn-light"
+                        onclick="deletePost()" th:onclick="|deletePost();|"
+                        type="button">게시글 삭제</button>
 
+            </div>
         </div>
     </div>
-</div>
 
-<div class="container bg-light rounded-3">
-    <div class="fs-5 py-2">
-        <strong th:text="${post.title}"></strong>
-    </div>
+    <div class="container bg-light rounded-3">
+        <div class="fs-5 py-2">
+            <strong th:text="${post.title}"></strong>
+        </div>
 
-    <div class="text-secondary ">
-        <span th:text="|${post.member.name}|" class="px-1"></span>
-        <span th:text="|조회수 ${post.hits}|" class="px-1"></span>
-        <span th:text="${#temporals.format(post.updateTime,'yyyy.MM.dd HH:mm')}" class="px-1"></span>
+        <div class="text-secondary ">
+            <span th:text="|${post.member.name}|" class="px-1"></span>
+            <span th:text="|조회수 ${post.hits}|" class="px-1"></span>
+            <span th:text="${#temporals.format(post.updateTime,'yyyy.MM.dd HH:mm')}" class="px-1"></span>
+        </div>
+        <div class="py-3">
+            <div>
+                <textarea th:text="${post.content}" rows="5" class="form-control" readonly
+                          style="resize: none"></textarea>
+            </div>
+<!--            <input type="text" id="postContent" name="postContent" class="form-control" value="content" th:value="${post.content}" readonly>-->
+        </div>
     </div>
-    <div>
-        <input type="text" id="postContent" name="postContent" class="form-control" value="content" th:value="${post.content}" readonly>
-    </div>
-</div>
 
 <!--댓글 영역-->
 
-<div class="card mb-2 mt-5">
-    <div class="card-header bg-light">댓글 작성</div>
-    <div class="card-body">
-        <form th:action="@{/comment/{postId}/register(postId=${post.id})}" th:object="${commentFormDto}" method="post">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    <textarea th:field="*{comment}" class="form-control" rows="1"></textarea>
-                    <button type="submit" class="btn btn-dark mt-3 float-end">등록</button>
-                </li>
-            </ul>
-        </form>
+    <div class="card my-3 p-0 container">
+        <div class="card-header bg-light">댓글 작성</div>
+        <div class="card-body">
+            <form th:action="@{/comment/{postId}/register(postId=${post.id})}" th:object="${commentFormDto}" method="post">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item p-0">
+                        <div class="row">
+                            <div class="col">
+                                <label for="comment" class="d-none">comment</label>
+                                <textarea id="comment" th:field="*{comment}" class="form-control" rows="1" readonly
+                                            style="resize: none"></textarea>
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-dark">등록</button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </form>
 
+        </div>
     </div>
-</div>
-<br/>
 
-
-<div class="card" th:if="${commentExist}">
-    <div class="card-header" th:text="|댓글 ${commentList.size()}개|">댓글</div>
-    <ul id="comment-box" class="list-group" th:each="comment : ${commentList}">
-        <li id="comment-1" class="list-group-item justify-content-between">
-            <div class="d-flex">
-                <div class="text-monospace me-3" th:text="${comment.member.name}"></div>
-                <div th:if="${loginMember.id == comment.member.id}">
-                    <button class="badge text-bg-secondary pr-1">수정</button>
-                    <button th:onclick="|deleteComment('${comment.id}', '${post.id}');|" class="badge text-bg-secondary btn-sm">삭제</button>
+    <div class="card mb-4 p-0 container" th:if="${commentExist}">
+        <div class="card-header" th:text="|댓글 ${commentList.size()}개|">댓글</div>
+        <ul id="comment-box" class="list-group" th:each="comment : ${commentList}">
+            <li id="comment-1" class="list-group-item justify-content-between">
+                <div class="d-flex">
+                    <div class="text-monospace me-3" th:text="${comment.member.name}"></div>
+                    <div th:if="${loginMember.id == comment.member.id}">
+                        <button class="badge text-bg-secondary pr-1">수정</button>
+                        <button th:onclick="|deleteComment('${comment.id}', '${post.id}');|" class="badge text-bg-secondary btn-sm">삭제</button>
+                    </div>
+                    <div class="ms-auto me-1" th:text="${#temporals.format(post.updateTime,'yyyy.MM.dd HH:mm')}"></div>
                 </div>
-                <div class="ms-auto me-1" th:text="${#temporals.format(post.updateTime,'yyyy.MM.dd HH:mm')}"></div>
-            </div>
-            <div th:text="${comment.comment}">댓글 내용</div>
-        </li>
-    </ul>
-</div>
+                <div th:text="${comment.comment}">댓글 내용</div>
+            </li>
+        </ul>
+    </div>
 
 </div> <!-- /container -->
 </body>

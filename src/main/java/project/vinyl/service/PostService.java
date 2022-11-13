@@ -8,6 +8,7 @@ import project.vinyl.dto.PostFormDto;
 import project.vinyl.dto.PostViewDto;
 import project.vinyl.entity.Member;
 import project.vinyl.entity.Post;
+import project.vinyl.repository.MemberRepository;
 import project.vinyl.repository.PostRepository;
 
 import javax.persistence.EntityExistsException;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PostService {
     private final PostRepository postRepository;
+    private final MemberRepository memberRepository;
 
     public Post register(PostFormDto postFormDto, Member member){
         Post post = postFormDto.toEntity(member);
@@ -33,6 +35,15 @@ public class PostService {
         return list.stream().map(PostViewDto::new).collect(Collectors.toList());
     }
 
+    public List<PostViewDto> myPost(Long memberId) {
+
+        Sort sort = Sort.by(Sort.Direction.DESC, "id", "regTime");
+
+        return postRepository.findAll(sort)
+                .stream().filter(m -> m.getMember().getId().equals(memberId))
+                .map(PostViewDto::new).collect(Collectors.toList());
+
+    }
     public Post getPost(Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(() ->
                 new EntityExistsException("존재하지 않는 게시글입니다."));
