@@ -45,7 +45,7 @@ public class MemberController {
             return "members/addMemberForm";
         }
 
-        return "redirect:/home";
+        return "redirect:/login";
     }
     @GetMapping("/delete")
     public String delete(@ModelAttribute("loginFormDto") LoginFormDto loginFormDto) {
