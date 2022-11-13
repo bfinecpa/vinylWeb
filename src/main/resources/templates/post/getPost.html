@@ -108,31 +108,41 @@
             <span th:text="|조회수 ${post.hits}|" class="px-1"></span>
             <span th:text="${#temporals.format(post.updateTime,'yyyy.MM.dd HH:mm')}" class="px-1"></span>
         </div>
-        <div>
-            <input type="text" id="postContent" name="postContent" class="form-control" value="content" th:value="${post.content}" readonly>
+        <div class="py-3">
+            <div>
+                <textarea th:text="${post.content}" rows="5" class="form-control" readonly
+                          style="resize: none"></textarea>
+            </div>
+<!--            <input type="text" id="postContent" name="postContent" class="form-control" value="content" th:value="${post.content}" readonly>-->
         </div>
     </div>
 
 <!--댓글 영역-->
 
-    <div class="card mb-2 mt-5">
+    <div class="card my-3 p-0 container">
         <div class="card-header bg-light">댓글 작성</div>
         <div class="card-body">
             <form th:action="@{/comment/{postId}/register(postId=${post.id})}" th:object="${commentFormDto}" method="post">
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                        <textarea th:field="*{comment}" class="form-control" rows="1"></textarea>
-                        <button type="submit" class="btn btn-dark mt-3 float-end">등록</button>
+                    <li class="list-group-item p-0">
+                        <div class="row">
+                            <div class="col">
+                                <label for="comment" class="d-none">comment</label>
+                                <textarea id="comment" th:field="*{comment}" class="form-control" rows="1" readonly
+                                            style="resize: none"></textarea>
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-dark">등록</button>
+                            </div>
+                        </div>
                     </li>
                 </ul>
             </form>
 
         </div>
     </div>
-    <br/>
 
-
-    <div class="card" th:if="${commentExist}">
+    <div class="card mb-4 p-0 container" th:if="${commentExist}">
         <div class="card-header" th:text="|댓글 ${commentList.size()}개|">댓글</div>
         <ul id="comment-box" class="list-group" th:each="comment : ${commentList}">
             <li id="comment-1" class="list-group-item justify-content-between">

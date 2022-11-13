@@ -55,7 +55,10 @@
         </div>
     </div>
 
-    <div>
+    <div th:if="${postList.size()==0}" class="text-center">
+        <p class="m-3">게시글이 존재하지 않습니다.</p>
+    </div>
+    <div th:if="${postList.size()>0}">
         <table class="table table-hover text-center">
             <thead>
             <tr>
@@ -68,9 +71,9 @@
             </thead>
             <tbody>
             <tr th:each="post : ${postList}" th:onclick="|location.href = '@{|/post/${post.id}|}'|" style="cursor:pointer;">
-                <td th:text="${post.id}">회원id</td>
+                <td th:text="${post.id}">글번호</td>
                 <td th:text="${post.title}" class="text-start">제목</td>
-                <td th:text="${post.name}">writer</td>
+                <td th:text="${post.name}">작성자</td>
                 <td th:text="${post.hits}">0</td>
                 <td th:text="${#temporals.format(post.updateTime,'yyyy.MM.dd') == #dates.format(#dates.createNow(),'yyyy.MM.dd')} ? ${#temporals.format(post.updateTime,'HH:mm')} : ${#temporals.format(post.updateTime,'yy.MM.dd')}">00/00</td>
             </tr>
