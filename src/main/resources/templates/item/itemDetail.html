@@ -79,8 +79,8 @@
     <div class="vinylNote">
         <div class="vinylTxt" th:text="${itemDetail.details}">판매자가 작성한 메모</div>
     </div>
-    <div th:each="itemImg : ${itemDetail.imgUrlList}" class="text-center mb-4">
-        <img th:if="${not #strings.isEmpty(itemImg)}" th:src="${itemImg}" class="rounded">
+    <div th:each="itemImg : ${itemDetail.imgUrlList}" class="text-center mb-4" >
+        <img th:if="${not #strings.isEmpty(itemImg)}" th:src="${itemImg}" class="rounded" style="width: 80%; height: 80%;">
     </div>
 </form>
 <div>
