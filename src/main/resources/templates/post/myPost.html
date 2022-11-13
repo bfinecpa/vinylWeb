@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="16x16"
+          th:href="@{/img/logo_font_gray.png}" href="../img/logo_font_gray.png">
+    <title>HiVinyl</title>
+</head>
+<body>
+<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        $(document).ready(function(){
+            var errorMessage = [[${errorMessage}]];
+            if(errorMessage != null){
+                alert(errorMessage);
+            }
+        });
+    </script>
+</th:block>
+
+<nav class="navbar navbar-expand bg-light">
+    <div class="container-fluid justify-content-start">
+        <a class="navbar-brand ms-2" href="#" th:href="@{/}">
+            <img th:src="@{/img/name_black.png}" alt="HiVinyl" width="77" height="56">
+        </a>
+        <div class="" id="navbarNav">
+            <div class="navbar-nav">
+                <a class="nav-link" th:href="@{/}">중고거래</a>
+                <a class="nav-link" href="#">가계부</a>
+                <a class="nav-link" th:href="@{/search}">가격비교</a>
+                <a class="nav-link active" aria-current="page" th:href="@{/post}">자유게시판</a>
+            </div>
+        </div>
+        <a class="ms-auto me-2" th:href="@{/myPage}">
+            <img th:src="@{/img/user-solid.svg}" alt="myPage" width="20" height="20">
+        </a>
+    </div>
+</nav>
+
+<div class="container">
+
+    <div class="py-3 text-start row align-items-center">
+        <div class="col">
+            <h6>자유 게시판</h6>
+            <p class="text-secondary m-0">내가 작성한 글</p>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-outline-secondary float-end"
+                    onclick="location.href='registerPostForm.html'"
+                    th:onclick="|location.href='@{/post/register}'|"
+                    type="button">게시글 작성</button>
+        </div>
+    </div>
+
+    <div th:if="${postList.size()==0}" class="text-center">
+        <p class="m-3">작성한 게시글이 없습니다.</p>
+    </div>
+    <div th:if="${postList.size()>0}">
+        <table class="table table-hover text-center">
+            <thead>
+            <tr>
+                <th class="col-sm-1"> </th>
+                <th class="col-sm-6">제목</th>
+                <th class="col-sm-2">글쓴이</th>
+                <th class="col-sm-1 px-0">조회수</th>
+                <th class="col-sm-2">작성시간</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="post : ${postList}" th:onclick="|location.href = '@{|/post/${post.id}|}'|" style="cursor:pointer;">
+                <td th:text="${post.id}">글번호</td>
+                <td th:text="${post.title}" class="text-start">제목</td>
+                <td th:text="${post.name}">작성자</td>
+                <td th:text="${post.hits}">0</td>
+                <td th:text="${#temporals.format(post.updateTime,'yyyy.MM.dd') == #dates.format(#dates.createNow(),'yyyy.MM.dd')} ? ${#temporals.format(post.updateTime,'HH:mm')} : ${#temporals.format(post.updateTime,'yy.MM.dd')}">00/00</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div> <!-- /container -->
+
+</body>
+</html>
