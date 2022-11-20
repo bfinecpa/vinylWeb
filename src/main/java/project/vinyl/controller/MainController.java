@@ -27,7 +27,7 @@ public class MainController {
 
     @GetMapping(value={"/", "/{page}"})
     public String mainPage(ItemSearchDto itemSearchDto, @PathVariable("page") Optional<Integer> page, Model model){
-        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3);
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 20);
         Page<MainPageItemDto> items = itemService.getMainPageItems(itemSearchDto, pageable);
         if(items.getContent().isEmpty()){
             log.info("비어있음");

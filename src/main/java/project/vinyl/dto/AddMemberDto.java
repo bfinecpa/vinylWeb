@@ -15,6 +15,11 @@ public class AddMemberDto {
     @NotEmpty(message = "이름을 입력하세요")
     private String name;
 
-    private String address;
+    private String zipcode;
+
+    private String streetAdr;
+
+    private String detailAdr;
+
     private String phoneNumber;
 }

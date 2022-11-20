@@ -23,14 +23,15 @@ public class Member {
     private String password;
     private String name;
 
-    private String address;
+    @Embedded
+    private Address address;
     private String phoneNumber;
 
     public Member(){
 
     }
 
-    public Member(String loginId, String password, String name, String address, String phoneNumber) {
+    public Member(String loginId, String password, String name, Address address, String phoneNumber) {
         this.loginId = loginId;
         this.password = password;
         this.name = name;
@@ -43,7 +44,7 @@ public class Member {
         member.setLoginId(addMemberDto.getLoginId());
         member.setPassword(addMemberDto.getPassword());
         member.setName(addMemberDto.getName());
-        member.setAddress(addMemberDto.getAddress());
+        member.setAddress(new Address(addMemberDto.getZipcode(), addMemberDto.getStreetAdr(), addMemberDto.getDetailAdr()));
         member.setPhoneNumber(addMemberDto.getPhoneNumber());
         return member;
     }
