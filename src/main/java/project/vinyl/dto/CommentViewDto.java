@@ -1,6 +1,8 @@
 package project.vinyl.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import project.vinyl.entity.Comment;
 import project.vinyl.entity.Member;
@@ -9,6 +11,8 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class CommentViewDto {
     private Long id;
     private String comment;
