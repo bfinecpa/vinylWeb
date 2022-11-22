@@ -1,33 +1,35 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<div id="commentTable" class="card mb-4 p-0 container" th:if="${commentExist}">
-  <div class="card-header" th:text="|댓글 ${commentList.size()}개|">댓글</div>
-  <ul id="comment-box" class="list-group" th:each="comment : ${commentList}">
-    <li th:id="|comment-${comment.id}|" class="list-group-item justify-content-between" style="border: none">
-      <div class="d-flex mb-1">
-        <div class="text-monospace me-3" th:text="${comment.member.name}"></div>
-        <div th:if="${loginMember.id == comment.member.id}">
-          <button class="badge text-bg-secondary" style="cursor: pointer; border: none" type="button"
-                  data-bs-toggle="collapse" th:attr="data-bs-target='.collapse-'+${comment.id}">수정</button>
-          <span th:onclick="|deleteComment('${comment.id}', '${post.id}');|" class="badge text-bg-secondary" style="cursor: pointer">삭제</span>
+<div id="commentTable">
+  <div class="card mb-4 p-0 container" th:if="${commentExist}">
+    <div class="card-header" th:text="|댓글 ${commentList.size()}개|">댓글</div>
+    <ul id="comment-box" class="list-group" th:each="comment : ${commentList}">
+      <li th:id="|comment-${comment.id}|" class="list-group-item justify-content-between" style="border: none">
+        <div class="d-flex mb-1">
+          <div class="text-monospace me-3" th:text="${comment.member.name}"></div>
+          <div th:if="${loginMember.id == comment.member.id}">
+            <button class="badge text-bg-secondary" style="cursor: pointer; border: none" type="button"
+                    data-bs-toggle="collapse" th:attr="data-bs-target='.collapse-'+${comment.id}">수정</button>
+            <span th:onclick="|deleteComment('${comment.id}', '${post.id}');|" class="badge text-bg-secondary" style="cursor: pointer">삭제</span>
+          </div>
+          <div class="ms-auto me-1" th:text="${#temporals.format(comment.updateTime,'yyyy.MM.dd HH:mm')}"></div>
         </div>
-        <div class="ms-auto me-1" th:text="${#temporals.format(comment.updateTime,'yyyy.MM.dd HH:mm')}"></div>
-      </div>
-      <div th:class="|collapse collapse-${comment.id} show|">
-        <label for="commentView" class="d-none">comment</label>
-        <textarea id="commentView" th:text="${comment.comment}" th:class="form-control"
-                  rows="1" style="resize: none; border: none;" readonly></textarea>
-      </div>
-      <form th:class="|collapse collapse-${comment.id} row|">
-        <input type="hidden" id="commentId" th:value="${comment.id}">
-        <div class="form-group col">
-          <textarea class="form-control" th:text="${comment.comment}" id="comment-content" rows="1"></textarea>
+        <div th:class="|collapse collapse-${comment.id} show|">
+          <label for="commentView" class="d-none">comment</label>
+          <textarea id="commentView" th:text="${comment.comment}" th:class="form-control"
+                    rows="1" style="resize: none; border: none;" readonly></textarea>
         </div>
-        <div class="col-auto">
-          <button type="button" id="btn-comment-update" class="btn btn-secondary">수정</button>
-        </div>
-      </form>
-    </li>
-  </ul>
+        <form th:class="|collapse collapse-${comment.id} row|">
+          <input type="hidden" id="commentId" th:value="${comment.id}">
+          <div class="form-group col">
+            <textarea class="form-control" th:text="${comment.comment}" id="comment-content" rows="1"></textarea>
+          </div>
+          <div class="col-auto">
+            <button type="button" th:onclick="|updateComment('${comment.id}')|" id="btn-comment-update" class="btn btn-secondary">수정</button>
+          </div>
+        </form>
+      </li>
+    </ul>
+  </div>
 </div>
 </html>

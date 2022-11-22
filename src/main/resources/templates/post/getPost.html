@@ -188,9 +188,10 @@
     </div>
 </div>
 
-<div id="commentTable" class="card mb-4 p-0 container" th:if="${commentExist}">
-    <div class="card-header" th:text="|댓글 ${commentList.size()}개|">댓글</div>
-    <ul id="comment-box" class="list-group" th:each="comment : ${commentList}">
+<div id="commentTable">
+    <div class="card mb-4 p-0 container" th:if="${commentExist}">
+        <div class="card-header" th:text="|댓글 ${commentList.size()}개|">댓글</div>
+        <ul id="comment-box" class="list-group" th:each="comment : ${commentList}">
         <li th:id="|comment-${comment.id}|" class="list-group-item justify-content-between" style="border: none">
             <div class="d-flex mb-1">
                 <div class="text-monospace me-3" th:text="${comment.member.name}"></div>
@@ -217,6 +218,7 @@
             </form>
         </li>
     </ul>
+    </div>
 </div>
 
 <!--<div class="card my-3 p-0 container">-->
