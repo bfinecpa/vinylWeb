@@ -130,7 +130,8 @@ public class SearchService {
     public  List<SearchDto> yes24Vinyl(String keyword){
         List<SearchDto> comparePriceDtoList = new ArrayList<>();
         if ( keyword != null){
-            keyword = keyword + " lp";
+            keyword = keyword.replace(" ", "+");
+            keyword = keyword + "+lp";
             int page=1;
             String seoul = "http://www.yes24.com/Product/Search?domain=MUSIC&query="+keyword;
             Connection conn = Jsoup.connect(seoul);
@@ -151,7 +152,7 @@ public class SearchService {
                                 String price = element.select("em.yes_b").get(0).text();
                                 price = price.replaceAll("[^0-9]", "");
                                 boolean available = element.select("span.soldOut").size() == 0 ? true : false;
-                                if(!available){
+                                if(available){
                                     SearchDto result = SearchDto.builder()
                                             .itemLink(link)
                                             .imgLink(img)
