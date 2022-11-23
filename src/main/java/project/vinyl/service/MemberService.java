@@ -46,7 +46,7 @@ public class MemberService {
 
     public Member check(String loginId, String password) {
         return memberRepository.findByLoginId(loginId)
-                .filter(m -> m.getPassword().equals(password))
+                .filter(m -> passwordEncoder.matches(password, m.getPassword()))
                 .orElse(null);
     }
 }
