@@ -75,7 +75,7 @@
                 <td th:text="${post.title}" class="text-start">제목</td>
                 <td th:text="${post.name}">작성자</td>
                 <td th:text="${post.hits}">0</td>
-                <td th:text="${#temporals.format(post.updateTime,'yyyy.MM.dd') == #dates.format(#dates.createNow(),'yyyy.MM.dd')} ? ${#temporals.format(post.updateTime,'HH:mm')} : ${#temporals.format(post.updateTime,'yy.MM.dd')}">00/00</td>
+                <td th:text="${#temporals.format(post.regTime,'yyyy.MM.dd') == #dates.format(#dates.createNow(),'yyyy.MM.dd')} ? ${#temporals.format(post.regTime,'HH:mm')} : ${#temporals.format(post.regTime,'yy.MM.dd')}">00/00</td>
             </tr>
             </tbody>
         </table>
