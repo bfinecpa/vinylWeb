@@ -7,6 +7,18 @@
     <link rel="icon" type="image/png" sizes="16x16"
           th:href="@{/img/logo_font_gray.png}" href="../img/logo_font_gray.png">
     <title>HiVinyl</title>
+    <style>
+        .page-item .page-link {
+            color: #777777;
+        }
+        .page-link.active {
+            background-color: #e9ecef;
+            border-color: #dee2e6;
+        }
+        .page-link:focus {
+            box-shadow: none;
+        }
+    </style>
 </head>
 <body>
 <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -55,10 +67,10 @@
         </div>
     </div>
 
-    <div th:if="${postList.size()==0}" class="text-center">
+    <div th:if="${postList.isEmpty()}" class="text-center">
         <p class="m-3">게시글이 존재하지 않습니다.</p>
     </div>
-    <div th:if="${postList.size()>0}">
+    <div th:if="${!postList.isEmpty()}">
         <table class="table table-hover text-center">
             <thead>
             <tr>
@@ -79,6 +91,24 @@
             </tr>
             </tbody>
         </table>
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                    <a class="page-link" th:href="${nowPage == 0}?'#none':'?page=0'" aria-label="First">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li th:each="page : ${#numbers.sequence(1, totalPages)}" class="page-item">
+                    <a class="page-link" th:text="${page}" th:href="|?page=${page - 1}|"  th:classappend="${nowPage == page - 1}?'active':''" ></a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" th:href="${nowPage == totalPages - 1}? '#none' : '?page='+${totalPages - 1}" aria-label="Last">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
     </div>
 
 </div> <!-- /container -->

@@ -1,6 +1,11 @@
 package project.vinyl.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,6 +26,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/post")
@@ -29,9 +35,11 @@ public class PostController {
     private final CommentService commentService;
 
     @GetMapping
-    public String list(Model model) {
-        List<PostViewDto> postList = postService.getList();
+    public String list(Model model, @PageableDefault(size=15, sort="id", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<PostViewDto> postList = postService.getList(pageable);
         model.addAttribute("postList", postList);
+        model.addAttribute("nowPage", postList.getPageable().getPageNumber());
+        model.addAttribute("totalPages", postList.getTotalPages());
         return "post/list";
     }
 

@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import project.vinyl.dto.CommentFormDto;
 import project.vinyl.dto.CommentViewDto;
+import project.vinyl.dto.PostFormDto;
 import project.vinyl.entity.Comment;
 import project.vinyl.entity.Member;
 import project.vinyl.entity.Post;
@@ -42,5 +43,11 @@ public class CommentService {
     public void delete(Long commentId){
         Comment comment = getComment(commentId);
         commentRepository.delete(comment);
+    }
+
+    public Comment modify(Long commentId, CommentViewDto commentViewDto) {
+        Comment comment = getComment(commentId);
+        comment.update(commentViewDto.getComment());
+        return comment;
     }
 }
