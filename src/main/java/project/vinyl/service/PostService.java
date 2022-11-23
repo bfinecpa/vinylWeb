@@ -2,6 +2,8 @@ package project.vinyl.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import project.vinyl.dto.PostFormDto;
@@ -29,10 +31,10 @@ public class PostService {
         return postRepository.save(post);
     }
 
-    public List<PostViewDto> getList() {
-        Sort sort = Sort.by(Sort.Direction.DESC, "id", "regTime");
-        List<Post> list= postRepository.findAll(sort);
-        return list.stream().map(PostViewDto::new).collect(Collectors.toList());
+    public Page<PostViewDto> getList(Pageable pageable) {
+//        Sort sort = Sort.by(Sort.Direction.DESC, "id", "regTime");
+        Page<Post> page= postRepository.findAll(pageable);
+        return page.map(PostViewDto::new);
     }
 
     public List<PostViewDto> myPost(Long memberId) {
