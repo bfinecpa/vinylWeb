@@ -16,6 +16,7 @@ import project.vinyl.repository.WishItemRepository;
 import project.vinyl.repository.WishListRepository;
 
 import javax.persistence.EntityExistsException;
+import java.lang.module.FindException;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +26,6 @@ import java.util.Optional;
 public class WishService {
 
     private final MemberRepository memberRepository;
-
     private final WishListRepository wishListRepository;
     private final WishItemRepository wishItemRepository;
     private final ItemRepository itemRepository;
@@ -39,10 +39,20 @@ public class WishService {
         return wishList;
     }
 
-    public Long setWishItem(Long memberId, Long itemId){
+
+    public Long setWishItem(Long memberId, Long itemId) throws Exception {
         Member member = memberRepository.findById(memberId).orElseThrow(EntityExistsException::new);
         WishList wishList = getWishList(member);
+        List<WishItem> byWishListId = wishItemRepository.findByWishListId(wishList.getId());
+        for (WishItem wishItem : byWishListId) {
+            if (wishItem.getItem().getId()==itemId){
+                throw new EntityExistsException();
+            }
+        }
         Item item = itemRepository.findById(itemId).orElseThrow(EntityExistsException::new);
+        if (item.getMember().getId()==memberId){
+            throw new FindException();
+        }
         WishItem wishItem = new WishItem(item, wishList);
         wishItemRepository.save(wishItem);
         return wishItem.getId();

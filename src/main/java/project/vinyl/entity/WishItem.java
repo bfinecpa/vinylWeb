@@ -3,6 +3,8 @@ package project.vinyl.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -19,10 +21,12 @@ public class WishItem {
 
     @ManyToOne
     @JoinColumn(name = "item_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Item item;
 
     @ManyToOne
     @JoinColumn(name = "wish_list_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private WishList wishList;
 
     public WishItem(Item item ,WishList wishList){

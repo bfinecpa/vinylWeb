@@ -80,7 +80,7 @@
       <label th:for="zipcode" class="col-sm-3 col-form-label">우편번호</label>
       <div class="col-sm-9">
         <input type="text" id="zipcode" th:field="*{zipcode}" class="form-control"
-               th:errorclass="field-error">
+               th:errorclass="field-error" readonly>
         <input type="button" class="mt-2" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
       </div>
     </div>
@@ -88,7 +88,7 @@
     <div class="row mb-2">
       <label th:for="streetAdr" class="col-sm-3 col-form-label">주소</label>
       <div class="col-sm-9">
-        <input type="text" id="streetAdr" th:field="*{streetAdr}" class="form-control"
+        <input type="text" id="streetAdr" th:field="*{streetAdr}" class="form-control" readonly
                th:errorclass="field-error">
       </div>
     </div>

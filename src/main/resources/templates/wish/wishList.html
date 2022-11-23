@@ -78,7 +78,7 @@
                             <td th:text="${item.itemSellStatus == T(project.vinyl.constant.ItemSellStatus).SELL} ? '판매중' : '품절'"></td>
                             <td th:text="${item.price}+'원'"></td>
                             <td>
-                                <form action="/item/delete" method="post">
+                                <form action="/wishItem/delete" method="post">
                                     <input type="hidden" th:name="itemId" th:value="${item.id}">
                                     <button type="submit" class="btn btn-outline-danger"> 삭제하기</button>
                                 </form>

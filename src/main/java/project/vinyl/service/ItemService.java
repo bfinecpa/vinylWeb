@@ -7,9 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import project.vinyl.dto.*;
-import project.vinyl.entity.Item;
-import project.vinyl.entity.ItemImg;
-import project.vinyl.entity.Member;
+import project.vinyl.entity.*;
 import project.vinyl.repository.ItemImgRepository;
 import project.vinyl.repository.ItemRepository;
 import project.vinyl.repository.UserRepository;
@@ -28,6 +26,8 @@ public class ItemService {
     private final ItemRepository itemRepository;
     private final ItemImgService itemImgService;
     private final UserRepository userRepository;
+
+    private final TransactionDetailsService transactionDetailsService;
 
     // 상품 저장 , 유저 아이디는 어떻게 할 것인가?
     public Long saveItem(ItemFormDto itemFormDto, List<MultipartFile> itemImgList, Long userId) throws IOException {
@@ -98,6 +98,7 @@ public class ItemService {
     public void deleteItem(Long itemId, Long userId){
         Item item = itemRepository.findById(itemId).orElseThrow(EntityExistsException::new);
         if (item.getMember().getId()==userId){
+            transactionDetailsService.setNull(itemId);
             itemImgService.delete(itemId);
             itemRepository.deleteById(itemId);
         }

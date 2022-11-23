@@ -3,6 +3,8 @@ package project.vinyl.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import project.vinyl.constant.BuySell;
 
 import javax.persistence.*;
@@ -21,6 +23,7 @@ public class Ledger {
 
     @ManyToOne
     @JoinColumn(name = "member_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Member member;
 
     @Enumerated(EnumType.STRING)

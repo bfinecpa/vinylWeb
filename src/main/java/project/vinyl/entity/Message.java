@@ -3,6 +3,8 @@ package project.vinyl.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -29,6 +31,7 @@ public class Message {
 
     @ManyToOne
     @JoinColumn(name = "messageRoom_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private MessageRoom messageRoom;
 
     private LocalDateTime sendTime;
