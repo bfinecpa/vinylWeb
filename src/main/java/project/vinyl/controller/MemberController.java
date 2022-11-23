@@ -78,6 +78,6 @@ public class MemberController {
             return "members/deleteMemberForm";
         }
 
-        return "redirect:/home";
+        return "redirect:/";
     }
 }

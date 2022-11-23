@@ -11,11 +11,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import project.vinyl.constant.SessionConst;
 import project.vinyl.dto.ItemSearchDto;
 import project.vinyl.dto.MainPageItemDto;
+import project.vinyl.entity.Member;
 import project.vinyl.service.ItemService;
 
 import javax.print.attribute.standard.PageRanges;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 @Controller
@@ -35,5 +39,23 @@ public class MainController {
         model.addAttribute("items", items);
         model.addAttribute("itemSearchDto", itemSearchDto);
         return "main";
+    }
+
+    @GetMapping("/myPage")
+    public String myPage(HttpServletRequest request, Model model) {
+
+        // 이 부분 없어도 어차피 로그인 화면으로 넘어감,,,
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return "login/loginForm";
+        }
+        Member member = (Member)session.getAttribute(SessionConst.LOGIN_MEMBER);
+        if (member == null) {
+            return "login/loginForm";
+        }
+
+        model.addAttribute("member", member);
+        return "myPage";
+
     }
 }
