@@ -90,10 +90,11 @@ img{ max-width:100%;}
 
 .active_chat{ background:#ebebeb;}
 
-.incoming_msg_img {
-    display: inline-block;
-    width: 6%;
+.incoming_msg{
+    overflow: hidden;
+    margin:26px 0 26px;
 }
+
 .received_msg {
     display: inline-block;
     padding: 0 0 0 10px;
@@ -101,6 +102,7 @@ img{ max-width:100%;}
     width: 92%;
 }
 .received_withd_msg p {
+    margin:26px 0 26px;
     background: #f4f4f4 none repeat scroll 0 0;
     border-radius: 7px;
     color: #646464;

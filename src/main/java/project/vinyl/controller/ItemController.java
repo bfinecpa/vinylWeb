@@ -120,10 +120,13 @@ public class ItemController {
     }
 
     @GetMapping("/{itemId}")
-    public String getItemDetail(@PathVariable("itemId") Long itemId, Model model){
+    public String getItemDetail(@PathVariable("itemId") Long itemId, Model model, String errors){
         ItemDetailToDealDto itemDetail = itemService.getItemDetail(itemId);
         log.info(itemDetail.getId().getClass().toString());
         model.addAttribute("itemDetail", itemDetail);
+        if(errors!=null){
+            model.addAttribute("errors", errors);
+        }
         return "item/itemDetail";
     }
 

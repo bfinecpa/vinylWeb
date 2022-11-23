@@ -71,9 +71,13 @@
             <button th:formaction="@{/setWishItem(itemId=${itemDetail.id})}" class="btn btn-outline-secondary">찜하기</button>
             <button type="submit" class="btn btn-outline-primary" formaction="/message" >쪽지하기</button>
         </div>
+
         <div th:unless="${itemDetail.itemSellStatus == T(project.vinyl.constant.ItemSellStatus).SELL}">
-            <button type="submit" class="btn btn-outline-warning">품절</button>
+            <button type="submit" class="btn btn btn-warning" disabled>SOLD OUT</button>
         </div>
+    </div>
+    <div class="mt-2 field-error" th:text="${errors}" style="padding-left: 130px; color:red">
+        찜하기 오류
     </div>
 
     <div class="vinylNote">
@@ -83,9 +87,44 @@
         <img th:if="${not #strings.isEmpty(itemImg)}" th:src="${itemImg}" class="rounded" style="width: 80%; height: 80%;">
     </div>
 </form>
-<div>
 
-</div>
+<style>
+    .modal {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        width: 100%;
+        height: 100%;
+
+        display: none;
+
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal.show {
+        display: block;
+    }
+
+    .modal_body {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+
+        width: 400px;
+        height: 600px;
+
+        padding: 40px;
+
+        text-align: center;
+
+        background-color: rgb(255, 255, 255);
+        border-radius: 10px;
+        box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+
+        transform: translateX(-50%) translateY(-50%);
+    }
+</style>
 
 </body>
 </html>

@@ -23,18 +23,30 @@ public class TransactionDetails {
     @Column(name = "transaction_details_id")
     private Long id;
 
+    private String itemName;
+
+    private int price;
+
+    private String itemImgUrl;
+
+    private String sellerName;
+
     //메세지 룸으로 해야하나, 아니면 아이템 있는 애들 이거를 해야하나
     @ManyToOne
     @JoinColumn(name = "message_room_id")
-    @Nullable
     private MessageRoom messageRoom;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Member member;
 
     @Builder
-    public TransactionDetails(MessageRoom messageRoom, Member member) {
+    public TransactionDetails(String itemName, int price, String itemImgUrl, String sellerName, MessageRoom messageRoom, Member member) {
+        this.itemName = itemName;
+        this.price = price;
+        this.itemImgUrl = itemImgUrl;
+        this.sellerName = sellerName;
         this.messageRoom = messageRoom;
         this.member = member;
     }

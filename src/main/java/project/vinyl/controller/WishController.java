@@ -18,8 +18,12 @@ import project.vinyl.dto.CRUDWishItemDto;
 import project.vinyl.entity.Member;
 import project.vinyl.service.WishService;
 
+import javax.persistence.EntityExistsException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.lang.module.FindException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -34,9 +38,21 @@ public class WishController {
                               HttpServletRequest request){
         HttpSession session = request.getSession(false);
         Member member = (Member)session.getAttribute(SessionConst.LOGIN_MEMBER);
-        wishService.setWishItem(member.getId(), itemId);
-        redirectAttributes.addAttribute("itemId", itemId);
-        return  "redirect:/item/{itemId}";
+        try{
+            wishService.setWishItem(member.getId(), itemId);
+            redirectAttributes.addAttribute("itemId", itemId);
+            return  "redirect:/item/{itemId}";
+        }catch (EntityExistsException e){
+            String errors = "이미 찜한 상품 입니다.";
+            redirectAttributes.addAttribute("errors", errors);
+            redirectAttributes.addAttribute("itemId", itemId);
+            return  "redirect:/item/{itemId}";
+        }catch (Exception e){
+            String errors = "현 상품 판매자는 찜할 수 없습니다.";
+            redirectAttributes.addAttribute("errors", errors);
+            redirectAttributes.addAttribute("itemId", itemId);
+            return  "redirect:/item/{itemId}";
+        }
     }
 
     @GetMapping(value = {"/getWishList/{page}", "/getWistList"})
@@ -56,7 +72,7 @@ public class WishController {
 
 
     @PostMapping("/wishItem/delete")
-    public String delete(@RequestParam("wishItemId") Long wishItemId, HttpServletRequest request){
+    public String delete(@RequestParam("itemId") Long wishItemId, HttpServletRequest request){
         HttpSession session = request.getSession(false);
         Member member = (Member)session.getAttribute(SessionConst.LOGIN_MEMBER);
         wishService.deleteWishItem(member.getId(), wishItemId);
