@@ -5,11 +5,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import project.vinyl.dto.AddMemberDto;
+import project.vinyl.dto.PostFormDto;
 import project.vinyl.entity.Member;
+import project.vinyl.entity.Post;
 import project.vinyl.entity.TotalLedger;
 import project.vinyl.repository.MemberRepository;
 import project.vinyl.repository.TotalLedgerRepository;
 
+import javax.persistence.EntityExistsException;
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Slf4j
@@ -40,6 +44,20 @@ public class MemberService {
         }
     }
 
+    @Transactional
+    public Member modify(AddMemberDto addMemberDto) {
+
+        Member member = memberRepository.findByLoginId(addMemberDto.getLoginId()).get();
+        member.setPassword(passwordEncoder.encode(member.getPassword()));
+        member.setName(addMemberDto.getName());
+        member.setPhoneNumber(addMemberDto.getPhoneNumber());
+
+        log.info("member.name={}", member.getName());
+        log.info("addDto.name={}", addMemberDto.getName());
+
+        return member;
+
+    }
     public void delete(Member member) {
         memberRepository.delete(member);
     }

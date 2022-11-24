@@ -49,6 +49,11 @@ public class Member {
         return member;
     }
 
+    public void update(AddMemberDto addMemberDto) {
+        this.password = addMemberDto.getPassword();
+        this.name = addMemberDto.getName();
+        this.phoneNumber = addMemberDto.getPhoneNumber();
+    }
 
     //member가 사라지면 올린 아이템도 사라져야 한다.
 
