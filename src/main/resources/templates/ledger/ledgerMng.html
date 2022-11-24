@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>HiVinyl</title>
     <link th:href="@{/css/bootstrap.min.css}"
           href="../css/bootstrap.min.css" rel="stylesheet">
     <link th:href="@{/css/ledgerList.css}"
@@ -31,15 +31,19 @@
         </a>
     </div>
 </nav>
-<main class="mt-4 pt-4">
-    <div class="container-fluid px-4">
-        <div class="d-flex justify-content-between align-items-center">
-            <h2 class="mt-2">가계부 관리</h2>
-            <form action="/ledger/new" method="get">
-                <button type="submit" class="btn btn-outline-dark "> 작성하기</button>
-            </form>
+<main>
+    <div class="container">
+        <div class="py-3 text-start row align-items-center">
+            <div class="col">
+                <h6>가계부 관리</h6>
+                <p class="text-secondary m-0">가계부를 작성하여 한눈에 지출내역을 확인합니다.</p>
+            </div>
+            <div class="col-auto">
+                <form action="/ledger/new" method="get">
+                    <button type="submit" class="btn btn-outline-dark float-end"> 작성하기</button>
+                </form>
+            </div>
         </div>
-
 
         <div class="card mb-4 mt-2">
             <div class="card-header totalLedger d-flex justify-content-around">

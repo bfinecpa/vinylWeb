@@ -42,8 +42,10 @@
     </div>
     <ul th:if="${hasResult}" class="list-unstyled d-table container">
         <li th:each="result : ${resultList}" th:onclick="|window.open('@{${result.itemLink}}')|"
-            class="d-inline-block m-3" style="cursor:pointer;">
-            <img th:src="${result.imgLink}" alt="상품이미지" width="200px" height="200px" style="object-fit: contain">
+            th:title="${result.name}" class="d-inline-block m-3" style="cursor:pointer;">
+            <div style="position: relative; overflow: hidden; width: 200px; height: 200px; border-radius: 0.375rem; margin-bottom: 5px;">
+                <img th:src="${result.imgLink}" alt="상품이미지" width="202px" height="202px" style="object-fit: contain; position: absolute; top: -1px; right: -1px;">
+            </div>
             <div th:text="${result.name}" style="width: 200px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap">이름</div>
             <div th:text="|${result.price}원|" class="float-end">가격</div>
         </li>

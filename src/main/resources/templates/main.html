@@ -3,12 +3,26 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="/css/postView.css">
+    <title>HiVinyl</title>
     <link th:href="@{/css/bootstrap.min.css}"
           href="../css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" sizes="16x16"
           th:href="@{/img/logo_font_gray.png}" href="../img/logo_font_gray.png">
+    <style>
+        input:focus-visible {
+            outline: none;
+        }
+        .img-button {
+            background: none;
+            border: none;
+            width: 30px;
+            height: 30px;
+            position: relative;
+            right: 40px;
+            bottom: 2px;
+            padding: 0px 5px 5px 5px;
+        }
+    </style>
 </head>
 <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 <body>
@@ -31,33 +45,33 @@
     </div>
 </nav>
 
-<main>
-    <div class="name">
-        <div class="contentName">
-            <div class="mainName" style="font-size: 25px">중고 거래</div>
-            <div class="detailName">최신글 보기</div>
+<main class="container">
+    <div class="py-3 text-start row align-items-center">
+        <div class="col">
+            <h6>중고 거래</h6>
+            <p class="text-secondary m-0">최신글 보기</p>
         </div>
-        <div class="additional">
+        <div class="col-auto">
             <form th:action="@{/}" method="get">
-                <div class="searchBox postSearch">
-                    <input name="searchQuery" type="search" placeholder="Search" aria-label="Search" class="search">
-                    <button type="submit" class="img-button ms-2">
+                <div>
+                    <input name="searchQuery" type="search" placeholder="Search" aria-label="Search"
+                        style="border: gray 1px solid; border-radius: 30px;" class="form-control-sm px-2 py-1">
+                    <button type="submit" class="img-button">
                         <img src="/img/magnifying-glass-solid.svg" alt="">
                     </button>
                 </div>
             </form>
         </div>
     </div>
-    <ul class="postList">
+    <ul class="list-unstyled d-table container">
         <th:block th:unless="${items.getContent().isEmpty()}">
             <th:block th:each="item, status: ${items.getContent()}">
-                <div class="post">
-                    <a th:href="'/item/' +${item.id}" class="text-dark">
-                        <img th:src="${item.imgUrl}" th:alt="${item.name}" >
-                        <div class="title">[[${item.name}]]</div>
-                        <div class="price">[[${item.price}]]원</div>
-                    </a>
-                </div>
+                    <li th:onclick="|location.href='@{|/item/${item.id}|}'|"
+                        th:title="${item.name}" class="d-inline-block m-3" style="cursor:pointer;">
+                        <img th:src="${item.imgUrl}" th:alt="${item.name}" width="200px" height="200px" style="object-fit: contain; border-radius: 0.375rem; margin-bottom: 5px;">
+                        <div style="width: 200px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap">[[${item.name}]]</div>
+                        <div class="float-end">[[${item.price}]]원</div>
+                    </li>
             </th:block>
         </th:block>
         <th:block th:if="${items.getContent().isEmpty()}">
