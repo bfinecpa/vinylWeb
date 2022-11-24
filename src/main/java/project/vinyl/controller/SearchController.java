@@ -25,7 +25,7 @@ public class SearchController {
             model.addAttribute("hasKeyword", true);
             model.addAttribute("keyword", keyword);
             List<SearchDto> resultList = searchService.getResult(keyword);
-            if (resultList != null) {
+            if (!resultList.isEmpty()) {
                 model.addAttribute("hasResult", true);
                 model.addAttribute("resultList", resultList);
             } else {
