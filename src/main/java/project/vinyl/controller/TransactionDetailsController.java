@@ -34,10 +34,10 @@ public class TransactionDetailsController {
     }
 
     @PostMapping("/completeTransaction")
-    public String completeTransaction(@RequestParam Long messageRoomId, Model model, HttpServletRequest request){
+    public String completeTransaction(@RequestParam Long messageRoomId, @RequestParam Double tradingRate, Model model, HttpServletRequest request){
         HttpSession session = request.getSession(false);
         Member member = (Member)session.getAttribute(SessionConst.LOGIN_MEMBER);
-        transactionDetailsService.saveTransactionCompleted(member.getId(), messageRoomId);
+        transactionDetailsService.saveTransactionCompleted(member.getId(), messageRoomId, tradingRate);
         return "redirect:/";
     }
 
