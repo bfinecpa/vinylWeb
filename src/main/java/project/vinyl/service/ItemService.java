@@ -98,7 +98,6 @@ public class ItemService {
     public void deleteItem(Long itemId, Long userId){
         Item item = itemRepository.findById(itemId).orElseThrow(EntityExistsException::new);
         if (item.getMember().getId()==userId){
-            transactionDetailsService.setNull(itemId);
             itemImgService.delete(itemId);
             itemRepository.deleteById(itemId);
         }
@@ -118,6 +117,10 @@ public class ItemService {
         Item item = itemRepository.findById(itemId).orElseThrow(EntityExistsException::new);
         ItemDetailToDealDto itemDetailToDealDto = ItemDetailToDealDto.of(item);
         itemDetailToDealDto.setSellerId(item.getMember().getId());
+        Double tradingRate = item.getMember().getTradingRate();
+        Long countRatingPerson = item.getMember().getCountRatingPerson();
+        Double rate = tradingRate/countRatingPerson;
+        itemDetailToDealDto.setTradingRate(String.format("%.1f", rate));
         List<String> itemImgUrlList = new ArrayList<>();
 
         List<ItemImg> itemImgList = itemImgService.getItemImgList(itemId);

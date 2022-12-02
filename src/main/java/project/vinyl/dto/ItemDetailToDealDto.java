@@ -32,6 +32,8 @@ public class ItemDetailToDealDto {
 
     private ItemSellStatus itemSellStatus;
 
+    private String tradingRate;
+
     private List<String> imgUrlList= new ArrayList<>();
 
     private static ModelMapper modelMapper = new ModelMapper();

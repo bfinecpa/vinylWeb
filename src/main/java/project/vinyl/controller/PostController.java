@@ -137,6 +137,7 @@ public class PostController {
         return "redirect:/post/{postId}";
     }
 
+
     @PostMapping("/{postId}/delete")
     public String delete(@PathVariable Long postId, HttpServletRequest request, RedirectAttributes redirectAttributes) {
 

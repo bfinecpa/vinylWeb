@@ -27,6 +27,10 @@ public class Member {
     private Address address;
     private String phoneNumber;
 
+    private Double tradingRate =3.0;
+
+    private Long countRatingPerson = 1L;
+
     public Member(){
 
     }
@@ -56,5 +60,10 @@ public class Member {
     }
 
     //member가 사라지면 올린 아이템도 사라져야 한다.
+
+    public void updateRating(Double rate){
+        countRatingPerson +=1;
+        tradingRate+=rate;
+    }
 
 }
