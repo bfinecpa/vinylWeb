@@ -1,5 +1,6 @@
 package project.vinyl.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -33,6 +34,7 @@ public class Ledger {
 
     private String detail;
 
+    @Builder
     public Ledger(String name, Member member,String detail, BuySell buyOrSell, int price) {
         this.name = name;
         this.member = member;

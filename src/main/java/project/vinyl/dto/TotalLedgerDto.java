@@ -1,5 +1,6 @@
 package project.vinyl.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ public class TotalLedgerDto {
 
     List<LedgerFormDto> ledgerFormDtoList;
 
+    @Builder
     public TotalLedgerDto(List<LedgerFormDto> ledgerFormDtoList, int totalIncome, int totalExpense) {
         this.ledgerFormDtoList = ledgerFormDtoList;
         this.totalIncome = totalIncome;
