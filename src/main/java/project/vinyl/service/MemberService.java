@@ -21,7 +21,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
-    private final TotalLedgerRepository totalLedgerRepository;
+
+    private final TotalLedgerService totalLedgerService;
     private final PasswordEncoder passwordEncoder;
 
     public Member join(AddMemberDto addMemberDto) {
@@ -31,9 +32,8 @@ public class MemberService {
         member.setPassword(passwordEncoder.encode(member.getPassword()));
 
         memberRepository.save(member);
-        TotalLedger totalLedger = new TotalLedger(member);
-        totalLedgerRepository.save(totalLedger);
 
+        totalLedgerService.makeNewTotalLedger(member);
         return member;
     }
 

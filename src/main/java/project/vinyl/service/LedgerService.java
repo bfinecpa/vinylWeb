@@ -21,7 +21,7 @@ import java.util.Optional;
 public class LedgerService {
 
     private final LedgerRepository ledgerRepository;
-    private final TotalLedgerRepository totalLedgerRepository;
+    private final TotalLedgerService totalLedgerService;
     private final MemberService memberService;
     
 
@@ -35,52 +35,18 @@ public class LedgerService {
                 .price(ledgerFormDto.getPrice())
                 .build();
         ledgerRepository.save(ledger);
-        addPriceToTotalLedger(memberId, ledger);
-    }
 
-    private void addPriceToTotalLedger(Long memberId, Ledger ledger) {
-        TotalLedger totalLedger = totalLedgerRepository.findByMemberId(memberId).orElseThrow(EntityExistsException::new);
-        if(ledger.getBuyOrSell()== BuySell.BUY){
-            totalLedger.setIncome(totalLedger.getIncome()+ ledger.getPrice());
-        }
-        if(ledger.getBuyOrSell()== BuySell.SELL){
-            totalLedger.setExpense(totalLedger.getExpense()+ ledger.getPrice());
-        }
+        totalLedgerService.addPriceToTotalLedger(memberId, ledger.getBuyOrSell(), ledger.getPrice());
     }
 
     public void updateLedger(LedgerFormDto ledgerFormDto, Long memberId){
         Ledger ledger = ledgerRepository.findById(ledgerFormDto.getId()).orElseThrow(EntityExistsException::new);
-        TotalLedger totalLedger = totalLedgerRepository.findByMemberId(memberId).orElseThrow(EntityExistsException::new);
 
-        changeTotalLedgerValueFromBuy(ledgerFormDto, ledger, totalLedger);
-        changeTotalLedgerValueFromSell(ledgerFormDto, ledger, totalLedger);
+        totalLedgerService.changeValueFromSell(ledgerFormDto,memberId,ledger.getBuyOrSell(), ledger.getPrice());
+        totalLedgerService.changeValueFromBuy(ledgerFormDto,memberId,ledger.getBuyOrSell(), ledger.getPrice());
 
         ledger.updateLedger(ledgerFormDto.getName(), ledgerFormDto.getDetail(),
                 ledgerFormDto.getBuyOrSell(), ledgerFormDto.getPrice());
-    }
-
-    private static void changeTotalLedgerValueFromSell(LedgerFormDto ledgerFormDto, Ledger ledger, TotalLedger totalLedger) {
-        if(ledger.getBuyOrSell()==BuySell.SELL){
-            if(ledgerFormDto.getBuyOrSell()==BuySell.BUY){
-                totalLedger.setExpense(totalLedger.getExpense()- ledger.getPrice());
-                totalLedger.setIncome(totalLedger.getIncome()+ ledgerFormDto.getPrice());
-            }
-            if(ledgerFormDto.getBuyOrSell()==BuySell.SELL){
-                totalLedger.setExpense(totalLedger.getExpense()- ledger.getPrice()+ ledgerFormDto.getPrice());
-            }
-        }
-    }
-
-    private static void changeTotalLedgerValueFromBuy(LedgerFormDto ledgerFormDto, Ledger ledger, TotalLedger totalLedger) {
-        if(ledger.getBuyOrSell()==BuySell.BUY){
-            if(ledgerFormDto.getBuyOrSell()==BuySell.SELL){
-                totalLedger.setIncome(totalLedger.getIncome()- ledger.getPrice());
-                totalLedger.setExpense(totalLedger.getExpense()+ ledgerFormDto.getPrice());
-            }
-            if(ledgerFormDto.getBuyOrSell()==BuySell.BUY){
-                totalLedger.setIncome(totalLedger.getIncome()- ledger.getPrice()+ ledgerFormDto.getPrice());
-            }
-        }
     }
 
     public LedgerFormDto findLedger(Long ledgerId){
@@ -91,7 +57,7 @@ public class LedgerService {
 
     public TotalLedgerDto getLedgers(Long memberId){
         List<LedgerFormDto> ledgerFormDtoList = ledgerRepository.getLedgerDto(memberId);
-        TotalLedger totalLedger = totalLedgerRepository.findByMemberId(memberId).orElseThrow(EntityExistsException::new);
+        TotalLedger totalLedger = totalLedgerService.findTotalLedgerById(memberId);
         return TotalLedgerDto.builder()
                 .ledgerFormDtoList(ledgerFormDtoList)
                 .totalIncome(totalLedger.getIncome())
@@ -101,13 +67,12 @@ public class LedgerService {
 
     public void removeLedger(Long memberId, Long legerId){
         Ledger ledger = ledgerRepository.findById(legerId).get();
-        TotalLedger totalLedger = totalLedgerRepository.findByMemberId(memberId).orElseThrow(EntityExistsException::new);
         if(ledger.getMember().getId() == memberId){
             if(ledger.getBuyOrSell()== BuySell.BUY){
-                totalLedger.setIncome(totalLedger.getIncome()-ledger.getPrice());
+               totalLedgerService.subtractIncome(memberId, ledger.getPrice());
             }
             if(ledger.getBuyOrSell()== BuySell.SELL){
-                totalLedger.setExpense(totalLedger.getExpense()-ledger.getPrice());
+                totalLedgerService.subtractExpense(memberId, ledger.getPrice());
             }
             ledgerRepository.delete(ledger);
         }
