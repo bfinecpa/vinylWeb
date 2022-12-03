@@ -25,10 +25,13 @@ import java.util.Optional;
 @Transactional
 public class WishService {
 
-    private final MemberRepository memberRepository;
     private final WishListRepository wishListRepository;
     private final WishItemRepository wishItemRepository;
+    private final MemberRepository memberRepository;
+    private final MemberService memberService;
+
     private final ItemRepository itemRepository;
+    private final ItemService itemService;
 
     public WishList getWishList(Member member){
         WishList wishList = wishListRepository.findByMemberId(member.getId());
@@ -41,15 +44,13 @@ public class WishService {
 
 
     public Long setWishItem(Long memberId, Long itemId) throws Exception {
-        Member member = memberRepository.findById(memberId).orElseThrow(EntityExistsException::new);
-        WishList wishList = getWishList(member);
-        List<WishItem> byWishListId = wishItemRepository.findByWishListId(wishList.getId());
-        for (WishItem wishItem : byWishListId) {
+        WishList wishList = getWishList(memberService.findById(memberId));
+        for (WishItem wishItem : wishItemRepository.findByWishListId(wishList.getId())) {
             if (wishItem.getItem().getId()==itemId){
                 throw new EntityExistsException();
             }
         }
-        Item item = itemRepository.findById(itemId).orElseThrow(EntityExistsException::new);
+        Item item = itemService.findItemByItemId(itemId);
         if (item.getMember().getId()==memberId){
             throw new FindException();
         }
@@ -64,23 +65,16 @@ public class WishService {
         if(wishList==null){
             return null;
         }
-        Page<CRUDWishItemDto> wishItemDto = wishItemRepository.getWishItemDto(wishList.getId(), pageable);
-
-        int number = wishItemDto.getNumber();
-        System.out.println("number = " + number);
-        return wishItemDto;
+        return wishItemRepository.getWishItemDto(wishList.getId(), pageable);
     }
 
     public void deleteWishItem(Long memberId, Long wishItemId){
-        Member member = memberRepository.findById(memberId).orElseThrow(EntityExistsException::new);
-        WishList byMemberId = wishListRepository.findByMemberId(memberId);
 
         WishItem wishItem = wishItemRepository.findById(wishItemId).orElseThrow(EntityExistsException::new);
-        if(wishItem.getWishList()==byMemberId){
+
+        if(wishItem.getWishList()==wishListRepository.findByMemberId(memberId)){
             wishItemRepository.delete(wishItem);
         }
     }
-
-
 
 }

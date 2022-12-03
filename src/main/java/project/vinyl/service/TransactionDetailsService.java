@@ -27,8 +27,8 @@ public class TransactionDetailsService {
     private final MessageRoomService messageRoomService;
 
     private final ItemImgService itemImgService;
-
     private final LedgerService ledgerService;
+    private final TotalLedgerService totalLedgerService;
 
 
     //거래 완료 기능
@@ -54,12 +54,24 @@ public class TransactionDetailsService {
             messageRoom.getItem().setItemSellStatus(ItemSellStatus.SOLD_OUT);
         }
         if(messageRoom.getItem().getMember().getId()==memberId){
-            Ledger ledger = new Ledger(messageRoom.getItem().getName(), member, "판매", BuySell.SELL, messageRoom.getItem().getPrice());
-            ledgerService.save(ledger);
+            ledgerService.save(Ledger.builder()
+                    .name(messageRoom.getItem().getName())
+                    .member(member)
+                    .detail("판매")
+                    .buyOrSell(BuySell.SELL)
+                    .price(messageRoom.getItem().getPrice())
+                    .build());
+            totalLedgerService.addPriceToTotalLedger(memberId,BuySell.SELL,messageRoom.getItem().getPrice());
         }
         if(messageRoom.getItem().getMember().getId()!=memberId){
-            Ledger ledger = new Ledger(messageRoom.getItem().getName(), member, "구매", BuySell.BUY, messageRoom.getItem().getPrice());
-            ledgerService.save(ledger);
+            ledgerService.save(Ledger.builder()
+                    .name(messageRoom.getItem().getName())
+                    .member(member)
+                    .detail("구매")
+                    .buyOrSell(BuySell.BUY)
+                    .price(messageRoom.getItem().getPrice())
+                    .build());
+            totalLedgerService.addPriceToTotalLedger(memberId,BuySell.BUY,messageRoom.getItem().getPrice());
         }
     }
 
