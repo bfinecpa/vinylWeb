@@ -28,16 +28,29 @@
     </div>
 </nav>
 
-<div class="container my-4" style="max-width: 500px">
-    <form class="d-flex" th:action th:method="get">
-        <input class="form-control me-2" type="text" th:name="keyword" placeholder="가수나 앨범 이름을 입력하세요.">
-        <button class="btn btn-outline-secondary" type="submit">Search</button>
+<div class="container">
+    <div class="py-3 text-start row align-items-center">
+        <div class="col">
+            <h6>가격 비교 검색</h6>
+            <p class="text-secondary m-0">다양한 사이트의 엘피 가격을 비교할 수 있습니다.</p>
+        </div>
+    </div>
+    <form class="d-flex mx-auto row" th:action th:method="get" style="max-width: 500px">
+            <div class="col-9">
+                <input class="form-control me-2" type="text" th:name="keyword" placeholder="가수나 앨범 이름을 입력하세요.">
+
+            </div>
+            <button class="btn btn-outline-secondary col-3" type="submit">Search</button>
+        </div>
     </form>
 </div>
 
 <div th:if="${hasKeyword}" class="px-5 pb-4">
     <div class="container">
-        <p class="m-3" th:if="${!hasResult}" th:text="|${keyword}에 대한 검색 결과가 없습니다.|"></p>
+        <th:block th:if="${!hasResult}">
+            <p class="mx-3 mt-3 mb-0"th:text="|${keyword}에 대한 검색 결과가 없습니다.|"></p>
+            <p class="text-secondary mx-3 my-0">품절인 상품은 나오지 않습니다.</p>
+        </th:block>
         <p class="m-3" th:if="${hasResult}" th:text="|${keyword}에 대한 검색 결과 ${resultList.size()}건이 있습니다.|"></p>
     </div>
     <ul th:if="${hasResult}" class="list-unstyled d-table container">

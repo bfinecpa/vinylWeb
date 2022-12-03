@@ -61,60 +61,55 @@
         </a>
     </div>
 </nav>
-
+<div class="container">
+    <div class="py-3 text-start align-items-center">
+        <h6>중고 거래</h6>
+        <p class="text-secondary m-0">상품 등록하기</p>
+    </div>
+</div>
 
 <form role="form" method="post" enctype="multipart/form-data" th:object="${itemFormDto}"
-    class="container">
-    <div class="py-3 text-start align-items-center">
-            <h6>중고 거래</h6>
-            <p class="text-secondary m-0">상품 등록하기</p>
-    </div>
+    class="container" style="max-width: 900px">
+
     <input type="hidden" th:field="*{id}">
 
     <div class="row mb-2">
-        <label for="exampleFormControlSelect1" class="col-sm-3 col-form-label">판매 상태</label>
-            <div class="col-sm-3">
-                <select class="form-select" id="exampleFormControlSelect1"  th:field="*{itemSellStatus}">
-                    <option value="SELL">판매중</option>
-                    <option value="SOLD_OUT">판매완료</option>
-                </select>
-            </div>
-        <div class="form-check col-sm-3 ms-auto">
-            <label class="col-form-label col-sm" for="gridCheck">
-                네고 여부
-                <input class="form-check-input col-sm" type="checkbox" id="gridCheck"  th:field="*{negotiation}">
-            </label>
-        </div>
-    </div>
-
-
-    <div class="row mb-2">
-        <label for="exampleInputName1" class="col-sm-3">상품명</label>
-        <div class="col-sm-9">
+        <label for="exampleInputName1" class="col-form-label col-sm-2">상품명</label>
+        <div class="col-sm-7">
             <input type="text" class="form-control" id="exampleInputName1" th:field="*{name}"
                    aria-describedby="emailHelp" placeholder="상품명을 입력하세요.">
         </div>
+        <div class="form-check col-sm-3 ms-auto">
+        <label class="col-form-label col-sm" for="gridCheck">
+            네고 여부
+            <input class="form-check-input col-sm" type="checkbox" id="gridCheck"  th:field="*{negotiation}">
+        </label>
+    </div>
     </div>
     <p class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}" >Incorrect data</p>
 
     <div class="row mb-2">
-        <label for="exampleInputPrice1" class="col-sm-3">가격</label>
-        <div class="col-sm-9">
+        <label for="exampleFormControlSelect1" class="col-sm-2 col-form-label">판매 상태</label>
+        <div class="col-sm-2">
+            <select class="form-select" id="exampleFormControlSelect1"  th:field="*{itemSellStatus}">
+                <option value="SELL">판매중</option>
+                <option value="SOLD_OUT">판매완료</option>
+            </select>
+        </div>
+        <label for="exampleInputPrice1" class="col-form-label col-sm-1 ps-4">가격</label>
+        <div class="col-sm-3">
             <input type="number" class="form-control" id="exampleInputPrice1" th:field="*{price}"
                    aria-describedby="emailHelp" step="1000" placeholder="상품의 가격을 입력해주세요">
         </div>
-    </div>
-    <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger">Incorrect data</p>
+        <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger">Incorrect data</p>
 
-
-    <div class="row mb-3">
-        <label for="exampleInputStock1" class="col-sm-3">재고</label>
-        <div class="col-sm-9">
+        <label for="exampleInputStock1" class="col-form-label col-sm-1 ps-4">재고</label>
+        <div class="col-sm-3">
             <input type="number" class="form-control" id="exampleInputStock1" th:field="*{stockNumber}"
                    aria-describedby="emailHelp">
         </div>
+        <p th:if="${#fields.hasErrors('stockNumber')}" th:errors="*{stockNumber}" class="text-danger">Incorrect data</p>
     </div>
-    <p th:if="${#fields.hasErrors('stockNumber')}" th:errors="*{stockNumber}" class="text-danger">Incorrect data</p>
 
     <div class="row mb-3">
         <label for="exampleFormControlTextarea1" class="d-none">상품 상세 내용</label>

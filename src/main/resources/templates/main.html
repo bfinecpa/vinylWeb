@@ -68,7 +68,7 @@
             <th:block th:each="item, status: ${items.getContent()}">
                     <li th:onclick="|location.href='@{|/item/${item.id}|}'|"
                         th:title="${item.name}" class="d-inline-block m-3" style="cursor:pointer;">
-                        <img th:src="${item.imgUrl}" th:alt="${item.name}" width="200px" height="200px" style="object-fit: contain; border-radius: 0.375rem; margin-bottom: 5px;">
+                        <img th:src="${item.imgUrl}" th:alt="${item.name}" class="rounded" width="200px" height="200px" style="object-fit: contain;margin-bottom: 5px;">
                         <div style="width: 200px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap">[[${item.name}]]</div>
                         <div class="float-end">[[${item.price}]]원</div>
                     </li>
