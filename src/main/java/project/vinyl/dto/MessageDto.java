@@ -1,5 +1,6 @@
 package project.vinyl.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,6 +22,7 @@ public class MessageDto {
 
     private String receiveMemberName;
 
+    @Builder
     public MessageDto(Long id, Long roomId, String content, Long sendMemberId, Long receiveMemberId, String sendMemberName, String receiveMemberName) {
         this.id = id;
         this.roomId = roomId;

@@ -1,5 +1,6 @@
 package project.vinyl.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -38,6 +39,7 @@ public class Message {
 
     private String content;
 
+    @Builder
     public Message(Member sendMember, Member receiveMember, MessageRoom messageRoom, String content) {
         this.sendMember = sendMember;
         this.receiveMember = receiveMember;

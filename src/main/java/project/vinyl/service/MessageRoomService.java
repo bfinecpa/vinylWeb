@@ -10,6 +10,7 @@ import project.vinyl.repository.MemberRepository;
 import project.vinyl.repository.MessageRoomRepository;
 
 import javax.persistence.EntityExistsException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -42,5 +43,18 @@ public class MessageRoomService {
         return (messageRoom.getParticipateMember1().getId()==memberId &&
                 messageRoom.getParticipateMember2().getId()==memberId) ? true : false ;
     }
+
+    public List<MessageRoom> findByParticipateMembers(Long memberId1, Long memberId2){
+        return messageRoomRepository.findByParticipateMember1IdOrParticipateMember2Id(memberId1, memberId2);
+    }
+
+    public void save(MessageRoom messageRoom){
+        messageRoomRepository.save(messageRoom);
+    }
+
+    public MessageRoom findMessageRoomById(Long roomId){
+        return messageRoomRepository.findById(roomId).orElseThrow(EntityExistsException::new);
+    }
+
 
 }

@@ -23,44 +23,48 @@ import java.util.Optional;
 public class TransactionDetailsService {
 
     private final TransactionDetailsRepository transDetailsRepository;
-    private final MemberRepository memberRepository;
-    private final MessageRoomRepository messageRoomRepository;
+    private final MemberService memberService;
+    private final MessageRoomService messageRoomService;
 
-    private final ItemImgRepository itemImgRepository;
+    private final ItemImgService itemImgService;
 
-    private final LedgerRepository ledgerRepository;
+    private final LedgerService ledgerService;
 
 
     //거래 완료 기능
     public void saveTransactionCompleted(Long memberId, Long messageRoomId, Double tradingRate){
-        Member member = memberRepository.findById(memberId).orElseThrow(EntityExistsException::new);
+        Member member = memberService.findById(memberId);
         member.updateRating(tradingRate);
-        MessageRoom messageRoom = messageRoomRepository.findById(messageRoomId).orElseThrow(EntityExistsException::new);
-        List<ItemImg> byItemIdOrderByIdAsc = itemImgRepository.findByItemIdOrderByIdAsc(messageRoom.getItem().getId());
-        TransactionDetails transactionDetails =
-                TransactionDetails.builder().itemName(messageRoom.getItem().getName())
-                        .itemId(messageRoom.getItem().getId())
-                        .price(messageRoom.getItem().getPrice()).itemImgUrl(byItemIdOrderByIdAsc.get(0).getImgUrl())
-                        .itemName(member.getName()).sellerName(member.getName())
-                        .member(member).build();
 
-        transDetailsRepository.save(transactionDetails);
+        MessageRoom messageRoom = messageRoomService.findMessageRoomById(messageRoomId);
+
+        List<ItemImg> byItemIdOrderByIdAsc = itemImgService.findItemImgsByitemId(messageRoom.getItem().getId());
+
+        transDetailsRepository.save(TransactionDetails.builder()
+                .itemName(messageRoom.getItem().getName())
+                .itemId(messageRoom.getItem().getId())
+                .price(messageRoom.getItem().getPrice())
+                .itemImgUrl(byItemIdOrderByIdAsc.get(0).getImgUrl())
+                .itemName(member.getName())
+                .sellerName(member.getName())
+                .member(member)
+                .build());
+
         if(messageRoom.getItem().getMember().getId()==memberId){
             messageRoom.getItem().setItemSellStatus(ItemSellStatus.SOLD_OUT);
         }
         if(messageRoom.getItem().getMember().getId()==memberId){
             Ledger ledger = new Ledger(messageRoom.getItem().getName(), member, "판매", BuySell.SELL, messageRoom.getItem().getPrice());
-            ledgerRepository.save(ledger);
-        }else{
+            ledgerService.save(ledger);
+        }
+        if(messageRoom.getItem().getMember().getId()!=memberId){
             Ledger ledger = new Ledger(messageRoom.getItem().getName(), member, "구매", BuySell.BUY, messageRoom.getItem().getPrice());
+            ledgerService.save(ledger);
         }
     }
 
-
     //거래 조회 기능
     public List<TransactionDetailsDto>  getTransDetailDto(Long memberId){
-        List<TransactionDetailsDto> transactionDetailsDtos = transDetailsRepository.getTransaction(memberId);
-        return transactionDetailsDtos;
+        return transDetailsRepository.getTransaction(memberId);
     }
-
 }

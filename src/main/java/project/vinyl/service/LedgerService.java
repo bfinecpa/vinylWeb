@@ -39,6 +39,10 @@ public class LedgerService {
         totalLedgerService.addPriceToTotalLedger(memberId, ledger.getBuyOrSell(), ledger.getPrice());
     }
 
+    public void save(Ledger ledger){
+        ledgerRepository.save(ledger);
+    }
+
     public void updateLedger(LedgerFormDto ledgerFormDto, Long memberId){
         Ledger ledger = ledgerRepository.findById(ledgerFormDto.getId()).orElseThrow(EntityExistsException::new);
 

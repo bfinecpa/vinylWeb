@@ -27,6 +27,12 @@ public class ItemImgService {
     String uploadPath;
 
 
+    public List<ItemImg> findItemImgsByitemId(Long itemId){
+        return itemImgRepository.findByItemIdOrderByIdAsc(itemId);
+    }
+
+
+
     public  List<ItemImg> getItemImgList(Long id){
         return itemImgRepository.findByItemIdOrderByIdAsc(id);
     }
