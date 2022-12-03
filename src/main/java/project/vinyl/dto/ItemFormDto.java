@@ -59,8 +59,10 @@ public class ItemFormDto {
         return modelMapper.map(this, Item.class);
     }
 
-    public static ItemFormDto of(Item item){
-        return modelMapper.map(item, ItemFormDto.class);
+    public static ItemFormDto of(Item item, List<ItemImgDto> itemImgDtoList){
+        ItemFormDto itemFormDto = modelMapper.map(item, ItemFormDto.class);
+        itemFormDto.setItemImgDtoList(itemImgDtoList);
+        return itemFormDto;
     }
 
 }

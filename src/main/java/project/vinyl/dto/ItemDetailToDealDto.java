@@ -38,8 +38,12 @@ public class ItemDetailToDealDto {
 
     private static ModelMapper modelMapper = new ModelMapper();
 
-    public static ItemDetailToDealDto of(Item item){
-        return modelMapper.map(item, ItemDetailToDealDto.class);
+    public static ItemDetailToDealDto of(Item item, Long sellerId, String tradingRate,  List<String> itemImgUrlList){
+        ItemDetailToDealDto itemDetailToDealDto = modelMapper.map(item, ItemDetailToDealDto.class);
+        itemDetailToDealDto.setSellerId(sellerId);
+        itemDetailToDealDto.setTradingRate(tradingRate);
+        itemDetailToDealDto.setImgUrlList(itemImgUrlList);
+        return itemDetailToDealDto;
     }
 
 }

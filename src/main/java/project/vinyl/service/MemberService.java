@@ -67,4 +67,8 @@ public class MemberService {
                 .filter(m -> passwordEncoder.matches(password, m.getPassword()))
                 .orElse(null);
     }
+
+    public Member findById(Long memberId){
+        return memberRepository.findById(memberId).orElseThrow(EntityExistsException::new);
+    }
 }

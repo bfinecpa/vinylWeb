@@ -1,5 +1,6 @@
 package project.vinyl.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,6 +28,7 @@ public class Item extends BaseTimeEntity{
     @Lob
     private String details;
 
+    @Builder
     public Item(String name, String details, int price, int stockNumber, boolean negotiation, ItemSellStatus itemSellStatus, Member member) {
         this.name = name;
         this.details = details;
@@ -61,4 +63,5 @@ public class Item extends BaseTimeEntity{
         this.negotiation = itemFormDto.isNegotiation();
         this.itemSellStatus = itemFormDto.getItemSellStatus();
     }
+
 }
