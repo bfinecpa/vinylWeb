@@ -28,6 +28,10 @@ public class ItemService {
     private final ItemImgService itemImgService;
     private final MemberService memberService;
 
+    public Item findItemByItemId(Long itemId){
+        return itemRepository.findById(itemId).orElseThrow(EntityExistsException::new);
+    }
+
     public Long saveItem(ItemFormDto itemFormDto, List<MultipartFile> itemImgList, Long memberId) throws IOException {
 
         Member member = memberService.findById(memberId);

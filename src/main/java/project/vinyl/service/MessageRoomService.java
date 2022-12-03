@@ -17,8 +17,8 @@ import java.util.Optional;
 public class MessageRoomService {
 
     private final MessageRoomRepository messageRoomRepository;
-    private final ItemRepository itemRepository;
-    private final MemberRepository memberRepository;
+    private final ItemService itemService;
+    private final MemberService memberService;
 
     public boolean existRoom(Long roomId){
         Optional<MessageRoom> messageRoom = messageRoomRepository.findById(roomId);
@@ -26,10 +26,8 @@ public class MessageRoomService {
     }
 
     public void makeRoom(Long itemId, Long member1Id, Long member2Id){
-        Item item = itemRepository.findById(itemId).orElseThrow(EntityExistsException::new);
-        Member member1 = memberRepository.findById(member1Id).orElseThrow(EntityExistsException::new);
-        Member member2 = memberRepository.findById(member2Id).orElseThrow(EntityExistsException::new);
-        MessageRoom messageRoom= new MessageRoom(item, member1, member2);
+        MessageRoom messageRoom= new MessageRoom(itemService.findItemByItemId(itemId),
+                memberService.findById(member1Id),  memberService.findById(member2Id));
         messageRoomRepository.save(messageRoom);
     }
 
