@@ -63,7 +63,7 @@
             </form>
         </div>
     </div>
-    <ul class="list-unstyled d-table container">
+    <ul class="list-unstyled d-table container p-0">
         <th:block th:unless="${items.getContent().isEmpty()}">
             <th:block th:each="item, status: ${items.getContent()}">
                     <li th:onclick="|location.href='@{|/item/${item.id}|}'|"
