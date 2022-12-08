@@ -74,6 +74,14 @@
         <div class="field-error" th:errors="*{name}" />
       </div>
     </div>
+    <div class="row mb-2">
+      <label for="email" class="col-sm-3 col-form-label">이메일 (*)</label>
+      <div class="col-sm-9">
+        <input type="text" id="email" th:field="*{email}" class="form-control"
+               th:errorclass="field-error" placeholder="hivinyl@example.com">
+        <div class="field-error" th:errors="*{email}" />
+      </div>
+    </div>
 
     <div class="row mb-2">
       <label th:for="zipcode" class="col-sm-3 col-form-label">우편번호</label>

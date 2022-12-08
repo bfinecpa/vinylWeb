@@ -22,6 +22,7 @@ public class Member {
     private String loginId;
     private String password;
     private String name;
+    private String email;
 
     @Embedded
     private Address address;
@@ -35,10 +36,11 @@ public class Member {
 
     }
 
-    public Member(String loginId, String password, String name, Address address, String phoneNumber) {
+    public Member(String loginId, String password, String name, String email, Address address, String phoneNumber) {
         this.loginId = loginId;
         this.password = password;
         this.name = name;
+        this.email = email;
         this.address = address;
         this.phoneNumber = phoneNumber;
     }
@@ -48,6 +50,7 @@ public class Member {
         member.setLoginId(addMemberDto.getLoginId());
         member.setPassword(addMemberDto.getPassword());
         member.setName(addMemberDto.getName());
+        member.setEmail(addMemberDto.getEmail());
         member.setAddress(new Address(addMemberDto.getZipcode(), addMemberDto.getStreetAdr(), addMemberDto.getDetailAdr()));
         member.setPhoneNumber(addMemberDto.getPhoneNumber());
         return member;

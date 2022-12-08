@@ -29,6 +29,7 @@ public class MemberService {
         Member member = Member.createMember(addMemberDto);
 
         validateDuplicateMember(member.getLoginId());
+        validateDuplicateEmail(member.getEmail());
         member.setPassword(passwordEncoder.encode(member.getPassword()));
 
         memberRepository.save(member);
@@ -41,6 +42,13 @@ public class MemberService {
         Optional<Member> findMember = memberRepository.findByLoginId(loginId);
         if (findMember.isPresent()) {
             throw new IllegalStateException("이미 존재하는 ID입니다.");
+        }
+    }
+
+    public void validateDuplicateEmail(String email) {
+        Optional<Member> findMember = memberRepository.findByEmail(email);
+        if (findMember.isPresent()) {
+            throw new IllegalStateException("이미 존재하는 이메일입니다.");
         }
     }
 

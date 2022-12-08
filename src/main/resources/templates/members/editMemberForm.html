@@ -67,6 +67,14 @@
         <div class="field-error" th:errors="*{name}" />
       </div>
     </div>
+    <div class="row mb-2">
+      <label for="email" class="col-sm-3 col-form-label">이메일 (*)</label>
+      <div class="col-sm-9">
+        <input type="text" id="email" th:field="*{email}" class="form-control"
+               th:errorclass="field-error" disabled>
+        <div class="field-error" th:errors="*{email}" />
+      </div>
+    </div>
 
 <!--    주소 부분은 건드리기 어려워보여서 일단 제외하고 수정-->
 <!--    <div class="row mb-2">-->
