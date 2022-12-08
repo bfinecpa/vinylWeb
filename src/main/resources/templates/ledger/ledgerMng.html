@@ -55,6 +55,10 @@
                     <span>지출 : </span>
                     <span class="fas fa-table me-2" th:text="'-'+${ledgers.totalExpense}+'원'"></span>
                 </div>
+                <div class="text-dark">
+                    <span>총 : </span>
+                    <span class="fas fa-table me-2" th:text="${ledgers.totalIncome} - ${ledgers.totalExpense} +'원'"></span>
+                </div>
             </div>
             <div class="card-body">
                 <table class="table table-hover table-striped">
@@ -72,7 +76,7 @@
                         <td th:text="${ledger.id}"></td>
                         <td th:text="${ledger.name}"></td>
                         <td th:text="${ledger.price}"></td>
-                        <td th:text="${ledger.detail}" style="width: 470px"></td>
+                        <td th:text="${ledger.detail}"></td>
                         <td th:text="${ledger.buyOrSell == T(project.vinyl.constant.BuySell).BUY} ? '구매' : '판매'"></td>
                         <td class="d-flex justify-content-center" >
                             <form action="/ledger/update" method="get">

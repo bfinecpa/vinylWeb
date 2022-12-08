@@ -62,7 +62,7 @@ public class MemberService {
         memberRepository.delete(member);
     }
 
-    public Member check(String loginId, String password) {
+    public Member checkLoginId(String loginId, String password) {
         return memberRepository.findByLoginId(loginId)
                 .filter(m -> passwordEncoder.matches(password, m.getPassword()))
                 .orElse(null);
@@ -70,5 +70,9 @@ public class MemberService {
 
     public Member findById(Long memberId){
         return memberRepository.findById(memberId).orElseThrow(EntityExistsException::new);
+    }
+
+    public boolean checkEmail(String memberEmail) {
+        return true;
     }
 }
