@@ -29,12 +29,12 @@
       }
     });
 
-    const header = $("meta[name='_csrf_header']").attr('content');
-    const token = $("meta[name='_csrf']").attr('content');
+    // const header = $("meta[name='_csrf_header']").attr('content');
+    // const token = $("meta[name='_csrf']").attr('content');
 
-    $('#checkEmail').on('click', function(){
-      checkEmail();
-    });
+    // $('#checkEmail').on('click', function(){
+    //   checkEmail();
+    // });
 
     function checkEmail(){
       const memberEmail = $('#memberEmail').val();
@@ -49,17 +49,18 @@
             'memberEmail': memberEmail
           },
           dataType: "text",
-          beforeSend: function (xhr) {
-            xhr.setRequestHeader(header, token);
-          }
+          // beforeSend: function (xhr) {
+          //   xhr.setRequestHeader(header, token);
+          // }
         }).done(function(result){
           console.log("result :" + result);
           if (result == "true") {
             sendEmail();
             alert('임시비밀번호를 전송 했습니다.');
-            window.location.href="/auth/login";
+            window.location.href="/login";
           } else if (result == "false") {
             alert('가입되지 않은 이메일입니다.');
+            $('#memberEmail').val("");
           }
         }).fail(function(error){
           alert(JSON.stringify(error));
@@ -72,13 +73,13 @@
 
       $.ajax({
         type: 'POST',
-        url: '/sendPwd',
+        url: '/members/sendPassword',
         data: {
           'memberEmail' : memberEmail
         },
-        beforeSend: function(xhr){
-          xhr.setRequestHeader(header, token);
-        },
+        // beforeSend: function(xhr){
+        //   xhr.setRequestHeader(header, token);
+        // },
         error: function(error){
           alert(JSON.stringify(error));
         }
@@ -168,7 +169,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-light" data-bs-dismiss="modal">취소</button>
-          <button type="button" class="btn btn-secondary" id="checkEmail">비밀번호 발송</button>
+          <button type="button" class="btn btn-secondary" th:onclick="checkEmail()">비밀번호 발송</button>
         </div>
       </div>
     </div>

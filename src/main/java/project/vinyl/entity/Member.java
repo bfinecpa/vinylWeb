@@ -62,6 +62,9 @@ public class Member {
         this.phoneNumber = addMemberDto.getPhoneNumber();
     }
 
+    public void updatePassword(String password){
+        this.password = password;
+    }
     //member가 사라지면 올린 아이템도 사라져야 한다.
 
     public void updateRating(Double rate){

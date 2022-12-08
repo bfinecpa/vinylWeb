@@ -29,7 +29,9 @@ public class MemberService {
         Member member = Member.createMember(addMemberDto);
 
         validateDuplicateMember(member.getLoginId());
-        validateDuplicateEmail(member.getEmail());
+        if (checkEmail(member.getEmail())) {
+            throw new IllegalStateException("이미 존재하는 이메일입니다.");
+        }
         member.setPassword(passwordEncoder.encode(member.getPassword()));
 
         memberRepository.save(member);
@@ -45,12 +47,6 @@ public class MemberService {
         }
     }
 
-    public void validateDuplicateEmail(String email) {
-        Optional<Member> findMember = memberRepository.findByEmail(email);
-        if (findMember.isPresent()) {
-            throw new IllegalStateException("이미 존재하는 이메일입니다.");
-        }
-    }
 
     @Transactional
     public Member modify(AddMemberDto addMemberDto) {
@@ -80,7 +76,40 @@ public class MemberService {
         return memberRepository.findById(memberId).orElseThrow(EntityExistsException::new);
     }
 
-    public boolean checkEmail(String memberEmail) {
-        return true;
+    public boolean checkEmail(String email) {
+        log.info("Service checkEmail");
+        log.info("email: {}", email);
+        log.info("memberRepository.existsByEmail(email): {}", memberRepository.existsByEmail(email));
+        return memberRepository.existsByEmail(email);
+    }
+
+    public String getTmpPassword() {
+        char[] charSet = new char[]{ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
+                'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+
+        String password = "";
+
+        /* 문자 배열 길이의 값을 랜덤으로 10개를 뽑아 조합 */
+        int index = 0;
+        for(int i = 0; i < 10; i++){
+            index = (int) (charSet.length * Math.random());
+            password += charSet[index];
+        }
+
+        log.info("임시 비밀번호 생성");
+        log.info("password: {}", password);
+        return password;
+    }
+
+    /** 임시 비밀번호로 업데이트 **/
+    public void updatePassword(String tmpPassword, String memberEmail) {
+
+        String encryptPassword = passwordEncoder.encode(tmpPassword);
+        Member member = memberRepository.findByEmail(memberEmail).orElseThrow(() ->
+                new IllegalArgumentException("해당 사용자가 존재하지 않습니다."));
+
+        member.updatePassword(encryptPassword);
+        log.info("임시 비밀번호 업데이트");
     }
 }

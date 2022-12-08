@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.*;
 import project.vinyl.constant.SessionConst;
 import project.vinyl.dto.AddMemberDto;
 import project.vinyl.dto.LoginFormDto;
+import project.vinyl.dto.MailDto;
 import project.vinyl.dto.PostFormDto;
 import project.vinyl.entity.Member;
 import project.vinyl.entity.Post;
+import project.vinyl.service.MailService;
 import project.vinyl.service.MemberService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +31,7 @@ import java.util.Map;
 @RequestMapping("/members")
 public class MemberController {
     private final MemberService memberService;
+    private final MailService mailService;
 
     @GetMapping("/add")
     public String addForm(@ModelAttribute("addMemberDto") AddMemberDto addMemberDto) {
@@ -118,7 +121,32 @@ public class MemberController {
     }
 
     @GetMapping("/checkEmail")
+    @ResponseBody
     public boolean checkEmail(@RequestParam("memberEmail") String memberEmail) {
+        log.info("@GetMapping(\"/checkEmail\")");
+        log.info("memberEmail: {}", memberEmail);
+        log.info("memberService.checkEmail(memberEmail): {}", memberService.checkEmail(memberEmail));
         return memberService.checkEmail(memberEmail);
+    }
+
+    @PostMapping("/sendPassword")
+    public String sendPwdEmail(@RequestParam("memberEmail") String memberEmail) {
+
+        log.info("@PostMapping(\"/sendPassword\")");
+        log.info("이메일: "+ memberEmail);
+
+        /** 임시 비밀번호 생성 **/
+        String tmpPassword = memberService.getTmpPassword();
+
+        /** 임시 비밀번호 저장 **/
+        memberService.updatePassword(tmpPassword, memberEmail);
+
+        /** 메일 생성 & 전송 **/
+        MailDto mail = mailService.createMail(tmpPassword, memberEmail);
+        mailService.sendMail(mail);
+
+        log.info("임시 비밀번호 전송 완료");
+
+        return "redirect:/login";
     }
 }
