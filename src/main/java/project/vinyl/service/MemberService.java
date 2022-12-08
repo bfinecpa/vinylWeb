@@ -62,9 +62,13 @@ public class MemberService {
         memberRepository.delete(member);
     }
 
-    public Member check(String loginId, String password) {
+    public Member checkLoginId(String loginId, String password) {
         return memberRepository.findByLoginId(loginId)
                 .filter(m -> passwordEncoder.matches(password, m.getPassword()))
                 .orElse(null);
+    }
+
+    public boolean checkEmail(String memberEmail) {
+        return true;
     }
 }

@@ -19,6 +19,74 @@
   </style>
 </head>
 <body>
+<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+<th:block layout:fragment="script">
+  <script th:inline="javascript">
+    $(document).ready(function(){
+      var errorMessage = [[${errorMessage}]];
+      if(errorMessage != null){
+        alert(errorMessage);
+      }
+    });
+
+    const header = $("meta[name='_csrf_header']").attr('content');
+    const token = $("meta[name='_csrf']").attr('content');
+
+    $('#checkEmail').on('click', function(){
+      checkEmail();
+    });
+
+    function checkEmail(){
+      const memberEmail = $('#memberEmail').val();
+
+      if(!memberEmail || memberEmail.trim() === ""){
+        alert("이메일을 입력하세요.");
+      } else {
+        $.ajax({
+          type: 'GET',
+          url: '/members/checkEmail',
+          data: {
+            'memberEmail': memberEmail
+          },
+          dataType: "text",
+          beforeSend: function (xhr) {
+            xhr.setRequestHeader(header, token);
+          }
+        }).done(function(result){
+          console.log("result :" + result);
+          if (result == "true") {
+            sendEmail();
+            alert('임시비밀번호를 전송 했습니다.');
+            window.location.href="/auth/login";
+          } else if (result == "false") {
+            alert('가입되지 않은 이메일입니다.');
+          }
+        }).fail(function(error){
+          alert(JSON.stringify(error));
+        })
+      }
+    };
+
+    function sendEmail(){
+      const memberEmail = $('#memberEmail').val();
+
+      $.ajax({
+        type: 'POST',
+        url: '/sendPwd',
+        data: {
+          'memberEmail' : memberEmail
+        },
+        beforeSend: function(xhr){
+          xhr.setRequestHeader(header, token);
+        },
+        error: function(error){
+          alert(JSON.stringify(error));
+        }
+      })
+    }
+  </script>
+</th:block>
+
 <nav class="navbar navbar-expand bg-light">
   <div class="container-fluid justify-content-start">
     <a class="navbar-brand ms-2" href="#" th:href="@{/}">
@@ -66,7 +134,7 @@
         <div class="field-error" th:errors="*{password}" />
       </div>
     </div>
-    <div class="row my-4">
+    <div class="row mt-4">
       <div class="col">
         <button class="w-100 btn btn-outline-secondary" type="button"
                 th:onclick="|location.href='@{/members/add}'|">
@@ -79,6 +147,34 @@
     </div>
   </form>
 
+  <button type="button" class="w-100 btn btn-light mt-3" data-bs-toggle="modal"
+          data-bs-target="#findPw">비밀번호 재발급</button>
+  <!-- 비밀번호 찾기 모달 -->
+  <div class="modal fade" id="findPw" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="findPwLabel">비밀번호 재발급</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>입력한 이메일로 임시 비밀번호가 전송됩니다.</p>
+          <div class="row">
+            <label class="form-label col-sm-3">Email</label>
+            <div class="col-sm-9">
+              <input type="email" id="memberEmail" name="memberEmail" class="form-control" required>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal">취소</button>
+          <button type="button" class="btn btn-secondary" id="checkEmail">비밀번호 발송</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div> <!-- /container -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
 </body>
 </html>

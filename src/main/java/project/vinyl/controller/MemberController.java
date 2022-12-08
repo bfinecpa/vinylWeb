@@ -77,9 +77,7 @@ public class MemberController {
         if (bindingResult.hasErrors()) {
             return "members/editMemberForm";
         }
-        log.info("c member.name={}", member.getName());
         memberService.modify(member);
-        log.info("c member.name={}", member.getName());
         return "/myPage";
     }
     @GetMapping("/delete")
@@ -98,7 +96,7 @@ public class MemberController {
         HttpSession session = request.getSession();
         Member loginMember = (Member)session.getAttribute(SessionConst.LOGIN_MEMBER);
 
-        Member deleteMember = memberService.check(form.getLoginId(), form.getPassword());
+        Member deleteMember = memberService.checkLoginId(form.getLoginId(), form.getPassword());
 
         if (deleteMember == null) {
             bindingResult.reject("loginFail", "아이디 혹은 비밀번호를 정확하게 입력하세요.");
@@ -117,5 +115,10 @@ public class MemberController {
         }
 
         return "redirect:/";
+    }
+
+    @GetMapping("/checkEmail")
+    public boolean checkEmail(@RequestParam("memberEmail") String memberEmail) {
+        return memberService.checkEmail(memberEmail);
     }
 }
