@@ -67,7 +67,7 @@
                 </tr>
                 </thead>
                 <tbody class="card-body">
-                <tr th:if="${wishItem.isEmpty()}">
+                <tr th:if="${wishItem == null}">
                     <td style="--bs-table-accent-bg: #FFFFFF">찜한 상품이 없습니다.</td>
                 </tr>
                 <div th:if="${wishItem != null}">
