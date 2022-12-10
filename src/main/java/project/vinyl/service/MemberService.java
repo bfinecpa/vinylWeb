@@ -52,7 +52,7 @@ public class MemberService {
     public Member modify(AddMemberDto addMemberDto) {
 
         Member member = memberRepository.findByLoginId(addMemberDto.getLoginId()).get();
-        member.setPassword(passwordEncoder.encode(member.getPassword()));
+        member.setPassword(passwordEncoder.encode(addMemberDto.getPassword()));
         member.setName(addMemberDto.getName());
         member.setPhoneNumber(addMemberDto.getPhoneNumber());
 

@@ -18,6 +18,35 @@
   </style>
 </head>
 <body>
+
+<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+<th:block layout:fragment="script">
+  <script th:inline="javascript">
+    function updateMember() {
+      //const forms = document.querySelectorAll('.needs-validation')
+      //
+      // if (!forms[0].checkValidity()) {
+      //   event.preventDefault();
+      //   event.stopPropagation();
+      // }
+      // forms.addClass('was-validated');
+
+      var forms = $("#updateForm");
+      // Loop over them and prevent submission
+      Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+
+          form.classList.add('was-validated')
+        }, false)
+      })
+    }
+
+  </script>
+</th:block>
 <nav class="navbar navbar-expand bg-light">
   <div class="container-fluid justify-content-start">
     <a class="navbar-brand ms-2" href="#" th:href="@{/}">
@@ -41,38 +70,54 @@
 
   <div class="pt-3 text-center">
     <h5>회원 정보 수정</h5>
-    <p class="text-secondary text-end px-2 mb-1">(* 필수 입력값입니다.)</p>
+    <p class="text-secondary text-end px-2 mb-1" style="font-size: small">(* 필수 입력값입니다.)</p>
   </div>
 
-  <form action="" th:action th:object="${member}" method="post" class="container">
+  <form th:action th:object="${member}" method="post" class="container needs-validation" id="updateForm" novalidate>
 
     <div th:if="${#fields.hasGlobalErrors()}">
       <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
     </div>
 
     <div class="row mb-2">
-      <label for="loginId" class="col-sm-3 col-form-label">로그인 ID (*)</label>
-      <div class="col-sm-9">
+      <label for="loginId" class="col-sm-4 col-form-label">로그인 ID *</label>
+      <div class="col-sm-8">
         <input type="text" id="loginId" th:field="*{loginId}" class="form-control"
-               th:errorclass="field-error" readonly disabled>
+               th:errorclass="field-error" readonly style="background-color: #e9ecef">
         <div class="field-error" th:errors="*{loginId}" />
       </div>
     </div>
-<!--    비밀번호는 따로 수정-->
     <div class="row mb-2">
-      <label for="name" class="col-sm-3 col-form-label">이름 (*)</label>
-      <div class="col-sm-9">
-        <input type="text" id="name" th:field="*{name}" class="form-control"
-               th:errorclass="field-error">
-        <div class="field-error" th:errors="*{name}" />
+      <label for="password" class="col-sm-4 col-form-label">비밀번호 *</label>
+      <div class="col-sm-8">
+        <input type="password" id="password" th:field="*{password}" class="form-control"
+               required pattern="(?=.*[0-9])(?=.*[a-zA-Z]).{8,16}$" th:errorclass="field-error">
+        <span id="passwordError" class="invalid-feedback">8~16자 영문 대소문자와 숫자로 설정하세요.</span>
+        <div class="field-error" th:errors="*{password}" />
+      </div>
+    </div>
+<!--    <div class="row mb-2">-->
+<!--      <label for="passwordCheck" class="col-sm-4 col-form-label">비밀번호 확인 *</label>-->
+<!--      <div class="col-sm-8">-->
+<!--        <input type="password" id="passwordCheck" name="passwordCheck" class="form-control" required>-->
+<!--        <span id class="invalid-feedback">비밀번호를 다시 입력하세요.</span>-->
+<!--      </div>-->
+<!--    </div>-->
+    <div class="row mb-2">
+      <label for="email" class="col-sm-4 col-form-label">이메일 *</label>
+      <div class="col-sm-8">
+        <input type="text" id="email" th:field="*{email}" class="form-control" readonly
+               style="background-color: #e9ecef" th:errorclass="field-error">
+        <div class="field-error" th:errors="*{email}" />
       </div>
     </div>
     <div class="row mb-2">
-      <label for="email" class="col-sm-3 col-form-label">이메일 (*)</label>
-      <div class="col-sm-9">
-        <input type="text" id="email" th:field="*{email}" class="form-control"
-               th:errorclass="field-error" disabled>
-        <div class="field-error" th:errors="*{email}" />
+      <label for="name" class="col-sm-4 col-form-label">이름 *</label>
+      <div class="col-sm-8">
+        <input type="text" id="name" th:field="*{name}" class="form-control"
+               minlength="1" th:errorclass="field-error">
+        <span class="invalid-feedback">이름을 입력하세요.</span>
+        <div class="field-error" th:errors="*{name}" />
       </div>
     </div>
 
@@ -105,10 +150,10 @@
 <!--    </div>-->
 
     <div class="row">
-      <label for="phoneNumber" class="col-sm-3 col-form-label">전화번호</label>
-      <div class="col-sm-9">
-        <input type="text" id="phoneNumber" th:field="*{phoneNumber}" class="form-control"
-               th:errorclass="field-error">
+      <label for="phoneNumber" class="col-sm-4 col-form-label">전화번호</label>
+      <div class="col-sm-8">
+        <input type="text" id="phoneNumber" th:field="*{phoneNumber}"
+               class="form-control" th:errorclass="field-error">
         <div class="field-error" th:errors="*{phoneNumber}" />
       </div>
     </div>
@@ -120,7 +165,7 @@
                 type="button">취소</button>
       </div>
       <div class="col">
-        <button class="w-100 btn btn-secondary btn-lg" type="submit">수정</button>
+        <button class="w-100 btn btn-secondary btn-lg" type="submit" th:onclick="updateMember()">수정</button>
       </div>
     </div>
 
@@ -178,6 +223,8 @@
     }).open();
   }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
+
 </body>
 
 </html>

@@ -69,7 +69,6 @@ public class MemberController {
         Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
 
         model.addAttribute("member", loginMember);
-        log.info("member.name={}", loginMember.getName());
 
         return "members/editMemberForm";
     }
@@ -83,6 +82,7 @@ public class MemberController {
         memberService.modify(member);
         return "/myPage";
     }
+
     @GetMapping("/delete")
     public String delete(@ModelAttribute("loginFormDto") LoginFormDto loginFormDto) {
         return "members/deleteMemberForm";
