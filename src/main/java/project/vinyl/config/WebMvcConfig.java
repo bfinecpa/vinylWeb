@@ -48,6 +48,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .headers().frameOptions().disable();
         return http.build();
     }
+
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();

@@ -63,20 +63,24 @@ public class ItemService {
 
 
     //역할: 유저가 자기가 올린 상품 조회 => 대표 이미지 + 이름 + 가격 + 네고 여부...
-    public Page<CRUDItemDto> getCRUDItem(Long itemId, Pageable pageable){
+    public Page<CRUDItemDto> getCRUDItem(Long memberId, Pageable pageable){
         
-        Page<Item> items = itemRepository.findByMemberIdOrderByIdAsc(itemId, pageable);
+        Page<Item> items = itemRepository.findByMemberIdOrderByIdAsc(memberId, pageable);
         
         Page<CRUDItemDto> crudItemDtos = items.map(m -> CRUDItemDto.of(m));
         
         for (CRUDItemDto crudItemDto : crudItemDtos) {
-            crudItemDto.setImgUrl(bringFirstImage(itemId));
+            crudItemDto.setImgUrl(bringFirstImage(crudItemDto.getId()));
         }
         return crudItemDtos;
     }
 
     private String bringFirstImage(Long itemId) {
-        return itemImgService.getItemImgList(itemId).get(0).getImgUrl();
+        List<ItemImg> itemImgList = itemImgService.getItemImgList(itemId);
+        if(!itemImgList.isEmpty()){
+            return itemImgList.get(0).getImgUrl();
+        }
+        return null;
     }
 
     public void updateItem(ItemFormDto itemFormDto, List<MultipartFile> multipartFiles, Long id) throws IOException {

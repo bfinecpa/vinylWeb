@@ -54,8 +54,16 @@ public class MainController {
             return "login/loginForm";
         }
 
+        Double tradingRate = member.getTradingRate();
+        Long countRatingPerson = member.getCountRatingPerson();
+        Double rate = tradingRate/countRatingPerson;
+        String memberRate = String.format("%.1f", rate);
+
         model.addAttribute("member", member);
+        model.addAttribute("rate", memberRate);
         return "myPage";
+
+
 
     }
 }

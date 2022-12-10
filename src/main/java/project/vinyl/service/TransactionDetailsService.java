@@ -34,9 +34,17 @@ public class TransactionDetailsService {
     //거래 완료 기능
     public void saveTransactionCompleted(Long memberId, Long messageRoomId, Double tradingRate){
         Member member = memberService.findById(memberId);
-        member.updateRating(tradingRate);
-
         MessageRoom messageRoom = messageRoomService.findMessageRoomById(messageRoomId);
+
+        Member participateMember1 = messageRoom.getParticipateMember1();
+        Member participateMember2 = messageRoom.getParticipateMember2();
+
+        if (participateMember1.getId()==memberId){
+            participateMember2.updateRating(tradingRate);
+        }
+        if (participateMember2.getId()==memberId){
+            participateMember1.updateRating(tradingRate);
+        }
 
         List<ItemImg> byItemIdOrderByIdAsc = itemImgService.findItemImgsByitemId(messageRoom.getItem().getId());
 
